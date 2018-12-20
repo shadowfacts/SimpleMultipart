@@ -49,7 +49,7 @@ public abstract class Multipart {
 		return true;
 	}
 
-	public MultipartState getStateForPlacement(MultipartSlot slot, MultipartContainerBlockEntity container) {
+	public MultipartState getPlacementState(MultipartSlot slot, MultipartContainerBlockEntity container) {
 		return getDefaultState();
 	}
 

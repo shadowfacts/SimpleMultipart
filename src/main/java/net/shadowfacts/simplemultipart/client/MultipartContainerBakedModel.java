@@ -30,6 +30,7 @@ public class MultipartContainerBakedModel implements BakedModel {
 		MultipartContainerBlockState containerState = (MultipartContainerBlockState)state;
 		Map<MultipartSlot, MultipartState> parts = containerState.getParts();
 		MultipartModels models = SimpleMultipartClient.getMultipartModels();
+		// TODO: would manually building the list be more efficient?
 		return parts.entrySet().stream()
 				.flatMap(entry -> {
 					MultipartBakedModel partModel = models.getModel(entry.getValue());

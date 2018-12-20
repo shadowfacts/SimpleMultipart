@@ -18,6 +18,7 @@ public class RedMultipart extends Multipart {
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getBoundingShape(MultipartState state, MultipartSlot slot, MultipartContainerBlockEntity container) {
 		return VoxelShapes.cube(0, 0, 0, 1, 1/16f, 1);
 	}

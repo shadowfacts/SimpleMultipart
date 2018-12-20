@@ -11,7 +11,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.ExtendedBlockView;
 import net.minecraft.world.World;
-import net.shadowfacts.simplemultipart.client.RenderStateProvider;
+import net.shadowfacts.simplemultipart.client.util.RenderStateProvider;
 import net.shadowfacts.simplemultipart.multipart.MultipartSlot;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 
@@ -57,11 +57,6 @@ public class MultipartContainerBlock extends Block implements BlockEntityProvide
 			shape = shape == null ? partShape : VoxelShapes.union(shape, partShape);
 		}
 		return shape == null ? VoxelShapes.empty() : shape;
-	}
-
-	@Override
-	public VoxelShape getRayTraceShape(BlockState var1, BlockView var2, BlockPos var3) {
-		return super.getRayTraceShape(var1, var2, var3);
 	}
 
 	@Override

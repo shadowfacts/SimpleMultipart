@@ -14,6 +14,8 @@ import java.util.Random;
  */
 public class MissingMultipartBakedModel implements MultipartBakedModel {
 
+	// TODO: actual missing model
+
 	@Override
 	public List<BakedQuad> getQuads(MultipartState state, MultipartSlot slot, Direction side, Random random) {
 		return ImmutableList.of();

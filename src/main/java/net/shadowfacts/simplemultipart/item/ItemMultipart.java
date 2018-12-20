@@ -41,7 +41,7 @@ public class ItemMultipart extends Item {
 			return ActionResult.FAILURE;
 		}
 
-		MultipartState partState = part.getStateForPlacement(slot, container);
+		MultipartState partState = part.getPlacementState(slot, container);
 		if (!container.canInsert(partState, slot)) {
 			return ActionResult.FAILURE;
 		}

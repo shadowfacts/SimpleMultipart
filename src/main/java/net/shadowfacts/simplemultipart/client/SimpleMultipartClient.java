@@ -12,7 +12,6 @@ public class SimpleMultipartClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-//		multipartModels = new MultipartModels(MinecraftClient.getInstance().getBlockRenderManager().getModels().getModelManager());
 	}
 
 	public static MultipartModels getMultipartModels() {

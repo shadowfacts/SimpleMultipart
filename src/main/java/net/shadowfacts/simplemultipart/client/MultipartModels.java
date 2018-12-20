@@ -11,12 +11,7 @@ import java.util.Map;
 public class MultipartModels {
 
 	private final Map<MultipartState, MultipartBakedModel> models = new IdentityHashMap<>();
-//	private final BakedModelManager modelManager;
 	private final MultipartBakedModel missingModel = new MissingMultipartBakedModel();
-
-	public MultipartModels() {
-//		this.modelManager = modelManager;
-	}
 
 	public MultipartBakedModel getMissingModel() {
 		return missingModel;

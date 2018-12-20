@@ -9,7 +9,7 @@ import net.minecraft.client.render.block.BlockRenderer;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ExtendedBlockView;
-import net.shadowfacts.simplemultipart.client.RenderStateProvider;
+import net.shadowfacts.simplemultipart.client.util.RenderStateProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

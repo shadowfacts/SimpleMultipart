@@ -1,4 +1,4 @@
-package net.shadowfacts.simplemultipart.client;
+package net.shadowfacts.simplemultipart.client.util;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
