@@ -54,7 +54,7 @@ public class MultipartContainerBlock extends Block implements BlockEntityProvide
 		VoxelShape shape = null;
 		for (Map.Entry<MultipartSlot, MultipartState> e : container.getParts().entrySet()) {
 			VoxelShape partShape = e.getValue().getBoundingShape(e.getKey(), container);
-			shape = shape == null ? partShape : VoxelShapes.method_1084(shape, partShape);
+			shape = shape == null ? partShape : VoxelShapes.union(shape, partShape);
 		}
 		return shape == null ? VoxelShapes.empty() : shape;
 	}

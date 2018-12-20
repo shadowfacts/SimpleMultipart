@@ -3,7 +3,7 @@ package net.shadowfacts.simplemultipart.mixin.client;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.RenderTypeBlock;
-import net.minecraft.client.render.VertexBuffer;
+import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.block.BlockRenderManager;
 import net.minecraft.client.render.block.BlockRenderer;
 import net.minecraft.client.render.model.BakedModel;
@@ -26,14 +26,12 @@ public abstract class MixinBlockRenderManager {
 
 	@Shadow
 	private BlockRenderer renderer;
-	@Shadow
-	private Random field_4169;
 
 	@Shadow
 	public abstract BakedModel getModel(BlockState var1);
 
-	@Inject(at = @At("HEAD"), method = "method_3355", cancellable = true)
-	public void method_3355(BlockState state, BlockPos pos, ExtendedBlockView world, VertexBuffer buffer, Random random, CallbackInfoReturnable<Boolean> info) {
+	@Inject(at = @At("HEAD"), method = "tesselateBlock", cancellable = true)
+	public void tesselateBlock(BlockState state, BlockPos pos, ExtendedBlockView world, BufferBuilder buffer, Random random, CallbackInfoReturnable<Boolean> info) {
 		Block block = state.getBlock();
 		if (state.getRenderType() == RenderTypeBlock.MODEL && block instanceof RenderStateProvider) {
 			RenderStateProvider provider = (RenderStateProvider)block;

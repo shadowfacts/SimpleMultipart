@@ -21,7 +21,7 @@ public class MultipartContainerEventHandler {
 	}
 
 	private static ActionResult handleBlockAttack(PlayerEntity player, World world, Hand hand, BlockPos pos, Direction direction) {
-		if (world.isRemote || world.getBlockState(pos).getBlock() != SimpleMultipart.containerBlock) {
+		if (world.isClient || world.getBlockState(pos).getBlock() != SimpleMultipart.containerBlock) {
 			return ActionResult.PASS;
 		}
 

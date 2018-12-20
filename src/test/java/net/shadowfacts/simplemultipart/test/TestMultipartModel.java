@@ -9,7 +9,7 @@ import net.minecraft.client.render.model.json.ModelElementFace;
 import net.minecraft.client.render.model.json.ModelElementTexture;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
-import net.minecraft.sortme.Vector3f;
+import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.math.Direction;
 import net.shadowfacts.simplemultipart.client.MultipartBakedModel;
 import net.shadowfacts.simplemultipart.multipart.MultipartSlot;
