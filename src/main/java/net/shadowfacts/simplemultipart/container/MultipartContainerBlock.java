@@ -14,6 +14,8 @@ import net.minecraft.world.World;
 import net.shadowfacts.simplemultipart.client.util.RenderStateProvider;
 import net.shadowfacts.simplemultipart.multipart.MultipartSlot;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
+import net.shadowfacts.simplemultipart.util.MultipartHelper;
+import net.shadowfacts.simplemultipart.util.MultipartHitResult;
 
 import java.util.Map;
 
@@ -27,19 +29,36 @@ public class MultipartContainerBlock extends Block implements BlockEntityProvide
 	}
 
 	@Override
-	public boolean activate(BlockState var1, World world, BlockPos pos, PlayerEntity player, Hand var5, Direction var6, float var7, float var8, float var9) {
-		if (player.isSneaking()) {
-			MultipartContainerBlockEntity container = (MultipartContainerBlockEntity)world.getBlockEntity(pos);
-			System.out.println(container.getParts());
-			return true;
-		} else {
+	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
+//		if (player.isSneaking()) {
+//			MultipartContainerBlockEntity container = (MultipartContainerBlockEntity)world.getBlockEntity(pos);
+//			System.out.println(container.getParts());
+//			return true;
+//		} else {
+//			return false;
+//		}
+
+		MultipartContainerBlockEntity container = (MultipartContainerBlockEntity)world.getBlockEntity(pos);
+		if (container == null) {
 			return false;
 		}
+
+		MultipartHitResult hit = MultipartHelper.rayTrace(container, world, pos, player);
+		if (hit == null) {
+			return false;
+		}
+
+		MultipartState partState = container.get(hit.partSlot);
+		return partState.activate(hit.partSlot, container, player, hand);
 	}
 
 	@Override
 	public BlockState getStateForRendering(BlockState state, BlockPos pos, ExtendedBlockView world) {
 		MultipartContainerBlockEntity container = (MultipartContainerBlockEntity)world.getBlockEntity(pos);
+		if (container == null) {
+			return state;
+		}
+
 		Map<MultipartSlot, MultipartState> parts = container.getParts();
 		return new MultipartContainerBlockState(state, parts);
 	}

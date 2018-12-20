@@ -1,10 +1,13 @@
 package net.shadowfacts.simplemultipart.multipart;
 
 import com.google.common.collect.ImmutableList;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateFactory;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.loot.LootSupplier;
 import net.minecraft.world.loot.LootTables;
@@ -75,6 +78,9 @@ public abstract class Multipart {
 		return dropTableId;
 	}
 
+	/**
+	 * Can be overridden, should only be called via {@link MultipartState#getDroppedStacks)}
+	 */
 	@Deprecated
 	public List<ItemStack> getDroppedStacks(MultipartState state, LootContext.Builder builder) {
 		Identifier dropTableId = getDropTableId();
@@ -86,6 +92,14 @@ public abstract class Multipart {
 			LootSupplier supplier = world.getServer().getLootManager().getSupplier(dropTableId);
 			return supplier.getDrops(context);
 		}
+	}
+
+	/**
+	 * Can be overridden, should only be called via {@link MultipartState#activate}
+	 */
+	@Deprecated
+	public boolean activate(MultipartState state, MultipartSlot slot, MultipartContainerBlockEntity container, PlayerEntity player, Hand hand) {
+		return false;
 	}
 
 }

@@ -1,9 +1,11 @@
 package net.shadowfacts.simplemultipart.multipart;
 
 import com.google.common.collect.ImmutableMap;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.AbstractPropertyContainer;
 import net.minecraft.state.property.Property;
+import net.minecraft.util.Hand;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.loot.context.LootContext;
 import net.shadowfacts.simplemultipart.container.MultipartContainerBlockEntity;
@@ -36,6 +38,11 @@ public class MultipartState extends AbstractPropertyContainer<Multipart, Multipa
 	public List<ItemStack> getDroppedStacks(LootContext.Builder builder) {
 		//noinspection deprecated
 		return owner.getDroppedStacks(this, builder);
+	}
+
+	public boolean activate(MultipartSlot slot, MultipartContainerBlockEntity container, PlayerEntity player, Hand hand) {
+		//noinspection deprecated
+		return owner.activate(this, slot, container, player, hand);
 	}
 
 }
