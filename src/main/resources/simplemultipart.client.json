@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "net.shadowfacts.simplemultipart.mixin.client",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinFuckYouBiomeColors",
+    "MixinBakedModelManager",
+    "MixinBlockRenderManager"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
