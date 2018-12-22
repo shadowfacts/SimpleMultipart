@@ -45,18 +45,20 @@ public class TestMultipartModel implements MultipartBakedModel {
 		Vector3f from;
 		Vector3f to;
 		Direction side;
+		String texture;
 		if (flag) {
 			from = new Vector3f(0, 0, 0);
 			to = new Vector3f(16, 1, 16);
 			side = Direction.UP;
-			face = new ModelElementFace(null, 0, "block/iron_block", elementTexture);
+			texture = "block/iron_block";
 		} else {
 			from = new Vector3f(0, 0, 0);
 			to = new Vector3f(16, 16, 1);
 			side = Direction.SOUTH;
-			face = new ModelElementFace(null, 0, "block/gold_block", elementTexture);
+			texture = "block/gold_block";
 		}
-		Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(SpriteAtlasTexture.BLOCK_ATLAS_TEX);
+		face = new ModelElementFace(null, -1, "#texture", elementTexture);
+		Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite(texture);
 		ModelRotationContainer rotationContainer = new ModelRotationContainer() {};
 		return QUAD_FACTORY.bake(from, to, face, sprite, side, rotationContainer, null, false);
 	}
