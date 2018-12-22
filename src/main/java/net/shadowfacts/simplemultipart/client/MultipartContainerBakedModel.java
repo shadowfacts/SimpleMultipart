@@ -5,7 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList;
-import net.minecraft.client.render.model.json.ModelTransformations;
+import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.math.Direction;
 import net.shadowfacts.simplemultipart.container.MultipartContainerBlockState;
@@ -60,8 +60,8 @@ public class MultipartContainerBakedModel implements BakedModel {
 	}
 
 	@Override
-	public ModelTransformations getTransformations() {
-		return ModelTransformations.ORIGIN;
+	public ModelTransformation getTransformations() {
+		return ModelTransformation.ORIGIN;
 	}
 
 	@Override
