@@ -3,8 +3,8 @@
   "package": "net.shadowfacts.simplemultipart.mixin.client",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinBakedModelManager",
-    "MixinBlockRenderManager"
+    "MixinBlockRenderManager",
+    "MixinModelLoader"
   ],
   "injectors": {
     "defaultRequire": 1
