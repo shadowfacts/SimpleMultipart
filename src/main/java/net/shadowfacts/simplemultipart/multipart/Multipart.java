@@ -15,6 +15,7 @@ import net.minecraft.world.loot.LootTables;
 import net.minecraft.world.loot.context.LootContext;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
 import net.shadowfacts.simplemultipart.container.MultipartContainerBlockEntity;
+import net.shadowfacts.simplemultipart.util.MultipartPlacementContext;
 
 import java.util.List;
 
@@ -22,8 +23,6 @@ import java.util.List;
  * @author shadowfacts
  */
 public abstract class Multipart {
-
-	public static final EnumProperty<MultipartSlot> SLOT = EnumProperty.create("slot", MultipartSlot.class);
 
 	private StateFactory<Multipart, MultipartState> stateFactory;
 	private MultipartState defaultState;
@@ -51,11 +50,7 @@ public abstract class Multipart {
 		return stateFactory;
 	}
 
-	public boolean isValidSlot(MultipartSlot slot) {
-		return true;
-	}
-
-	public MultipartState getPlacementState(MultipartSlot slot, MultipartContainerBlockEntity container) {
+	public MultipartState getPlacementState(MultipartPlacementContext context) {
 		return getDefaultState();
 	}
 
@@ -63,7 +58,7 @@ public abstract class Multipart {
 	 * Can be overridden, should only be called via {@link MultipartState#getStateForRendering}
 	 */
 	@Deprecated
-	public MultipartState getStateForRendering(MultipartState state, MultipartSlot slot, MultipartContainerBlockEntity container) {
+	public MultipartState getStateForRendering(MultipartState state, MultipartContainerBlockEntity container) {
 		return state;
 	}
 
@@ -71,7 +66,7 @@ public abstract class Multipart {
 	 * Can be overridden, should only be called via {@link MultipartState#getBoundingShape}
 	 */
 	@Deprecated
-	public abstract VoxelShape getBoundingShape(MultipartState state, MultipartSlot slot, MultipartContainerBlockEntity container);
+	public abstract VoxelShape getBoundingShape(/*@Nullable*/ MultipartState state, MultipartContainerBlockEntity container);
 
 	public Identifier getDropTableId() {
 		if (dropTableId == null) {
@@ -101,7 +96,7 @@ public abstract class Multipart {
 	 * Can be overridden, should only be called via {@link MultipartState#activate}
 	 */
 	@Deprecated
-	public boolean activate(MultipartState state, MultipartSlot slot, MultipartContainerBlockEntity container, PlayerEntity player, Hand hand) {
+	public boolean activate(MultipartState state, MultipartContainerBlockEntity container, PlayerEntity player, Hand hand) {
 		return false;
 	}
 

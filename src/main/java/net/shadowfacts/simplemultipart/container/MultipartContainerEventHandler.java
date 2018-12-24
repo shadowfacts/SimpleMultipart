@@ -35,7 +35,7 @@ public class MultipartContainerEventHandler {
 			return ActionResult.FAILURE;
 		}
 
-		boolean success = container.breakPart(hit.partSlot);
+		boolean success = container.breakPart(hit.partState);
 		return success ? ActionResult.SUCCESS : ActionResult.FAILURE;
 	}
 

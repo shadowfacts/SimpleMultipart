@@ -10,8 +10,8 @@ import net.minecraft.world.World;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
 import net.shadowfacts.simplemultipart.container.MultipartContainerBlockEntity;
 import net.shadowfacts.simplemultipart.multipart.Multipart;
-import net.shadowfacts.simplemultipart.multipart.MultipartSlot;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
+import net.shadowfacts.simplemultipart.util.MultipartPlacementContext;
 
 /**
  * @author shadowfacts
@@ -36,21 +36,35 @@ public class ItemMultipart extends Item {
 			return ActionResult.FAILURE;
 		}
 
-		MultipartSlot slot = getSlotForPlacement(container, context);
-		if (slot == null) {
+		MultipartPlacementContext partContext = new MultipartPlacementContext(container, context);
+		MultipartState state = part.getPlacementState(partContext);
+
+		if (!container.canInsert(state)) {
+//			container.destroyIfEmpty();
 			return ActionResult.FAILURE;
 		}
 
-		MultipartState partState = part.getPlacementState(slot, container);
-		if (!container.canInsert(partState, slot)) {
-			return ActionResult.FAILURE;
-		}
-
-		container.insert(partState, slot);
+		container.insert(state);
 
 		context.getItemStack().addAmount(-1);
 
 		return ActionResult.SUCCESS;
+
+//		MultipartSlot slot = getSlotForPlacement(container, context);
+//		if (slot == null) {
+//			return ActionResult.FAILURE;
+//		}
+//
+//		MultipartState partState = part.getPlacementState(slot, container);
+//		if (!container.canInsert(partState, slot)) {
+//			return ActionResult.FAILURE;
+//		}
+//
+//		container.insert(partState, slot);
+//
+//		context.getItemStack().addAmount(-1);
+//
+//		return ActionResult.SUCCESS;
 	}
 
 	protected MultipartContainerBlockEntity getOrCreateContainer(World world, BlockPos pos) {
@@ -65,15 +79,15 @@ public class ItemMultipart extends Item {
 		}
 	}
 
-	protected MultipartSlot getSlotForPlacement(MultipartContainerBlockEntity container, ItemPlacementContext context) {
-		MultipartSlot slot = MultipartSlot.fromClickedSide(context.getFacing());
-		if (part.isValidSlot(slot) && !container.hasPartInSlot(slot)) {
-			return slot;
-		}
-		if (part.isValidSlot(MultipartSlot.CENTER) && !container.hasPartInSlot(MultipartSlot.CENTER)) {
-			return MultipartSlot.CENTER;
-		}
-		return null;
-	}
+//	protected MultipartSlot getSlotForPlacement(MultipartContainerBlockEntity container, ItemPlacementContext context) {
+//		MultipartSlot slot = MultipartSlot.fromClickedSide(context.getFacing());
+//		if (part.isValidSlot(slot) && !container.hasPartInSlot(slot)) {
+//			return slot;
+//		}
+//		if (part.isValidSlot(MultipartSlot.CENTER) && !container.hasPartInSlot(MultipartSlot.CENTER)) {
+//			return MultipartSlot.CENTER;
+//		}
+//		return null;
+//	}
 
 }

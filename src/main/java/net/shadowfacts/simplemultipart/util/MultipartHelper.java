@@ -50,11 +50,11 @@ public class MultipartHelper {
 	}
 
 	public static MultipartHitResult rayTrace(MultipartContainerBlockEntity container, World world, BlockPos pos, Vec3d start, Vec3d end) {
-		return container.getParts().entrySet().stream()
-				.map(e -> {
-					VoxelShape shape = e.getValue().getBoundingShape(e.getKey(), container);
+		return container.getParts().stream()
+				.map(partState -> {
+					VoxelShape shape = partState.getBoundingShape(container);
 					HitResult result = shape.rayTrace(start, end, pos);
-					return result == null ? null : new MultipartHitResult(result, e.getKey());
+					return result == null ? null : new MultipartHitResult(result, partState);
 				})
 				.filter(Objects::nonNull)
 				.min(Comparator.comparingDouble(hit -> hit.pos.subtract(start).lengthSquared()))

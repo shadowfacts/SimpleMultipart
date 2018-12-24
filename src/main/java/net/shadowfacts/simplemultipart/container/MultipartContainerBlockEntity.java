@@ -1,6 +1,7 @@
 package net.shadowfacts.simplemultipart.container;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import net.fabricmc.fabric.api.util.NbtType;
 import net.fabricmc.fabric.block.entity.ClientSerializable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -8,76 +9,66 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.shape.VoxelShape;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
-import net.shadowfacts.simplemultipart.multipart.MultipartSlot;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 import net.shadowfacts.simplemultipart.util.MultipartHelper;
+import net.shadowfacts.simplemultipart.util.ShapeUtils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author shadowfacts
  */
 public class MultipartContainerBlockEntity extends BlockEntity implements ClientSerializable {
 
-	private Map<MultipartSlot, MultipartState> parts = new HashMap<>();
+	private Set<MultipartState> parts = new HashSet<>();
 
 	public MultipartContainerBlockEntity() {
 		super(SimpleMultipart.containerBlockEntity);
 	}
 
-	public ImmutableMap<MultipartSlot, MultipartState> getParts() {
-		return ImmutableMap.copyOf(parts);
+	public ImmutableSet<MultipartState> getParts() {
+		return ImmutableSet.copyOf(parts);
 	}
 
-	public boolean hasPartInSlot(MultipartSlot slot) {
-		return parts.containsKey(slot);
-	}
-
-	public boolean canInsert(MultipartState partState, MultipartSlot slot) {
-		if (hasPartInSlot(slot)) {
-			return false;
+	public boolean canInsert(MultipartState partState) {
+		VoxelShape newShape = partState.getBoundingShape(null);
+		for (MultipartState existing : parts) {
+			VoxelShape existingShape = existing.getBoundingShape(this);
+			if (ShapeUtils.intersect(newShape, existingShape)) {
+				return false;
+			}
 		}
-
-		// TODO: check bounding box intersections
 
 		return true;
 	}
 
-	public void insert(MultipartState partState, MultipartSlot slot) {
-		parts.put(slot, partState);
+	public void insert(MultipartState partState) {
+		parts.add(partState);
 		markDirty();
 		world.scheduleBlockRender(pos);
 	}
 
-	public MultipartState get(MultipartSlot slot) {
-		return parts.get(slot);
-	}
-
-	public void remove(MultipartSlot slot) {
-		parts.remove(slot);
+	public void remove(MultipartState partState) {
+		parts.remove(partState);
 
 		if (parts.isEmpty()) {
 			world.setBlockState(pos, Blocks.AIR.getDefaultState());
 		}
 	}
 
-	public boolean breakPart(MultipartSlot slot) {
-		MultipartState state = get(slot);
-		if (state == null) {
-			return false;
-		}
-
+	public boolean breakPart(MultipartState partState) {
 		if (world instanceof ServerWorld) {
-			List<ItemStack> drops = MultipartHelper.getDroppedStacks(state, (ServerWorld)world, pos);
+			List<ItemStack> drops = MultipartHelper.getDroppedStacks(partState, (ServerWorld)world, pos);
 			drops.forEach(stack -> Block.dropStack(world, pos, stack));
 			// TODO: don't drop if player is creative
 		}
 
-		remove(slot);
+		remove(partState);
 
 		world.markDirty(pos, this);
 		world.scheduleBlockRender(pos);
@@ -87,48 +78,48 @@ public class MultipartContainerBlockEntity extends BlockEntity implements Client
 		return true;
 	}
 
-	private CompoundTag partsToTag(CompoundTag tag) {
-		parts.forEach((slot, state) -> {
+	private ListTag partsToTag() {
+		ListTag list = new ListTag();
+		parts.forEach(state -> {
 			if (state != null) {
 				CompoundTag partStateTag = MultipartHelper.serializeMultipartState(state);
-				tag.put(slot.name(), partStateTag);
+				list.add(partStateTag);
 			}
 		});
-		return tag;
+		return list;
 	}
 
-	private void partsFromTag(CompoundTag tag) {
+	private void partsFromTag(ListTag list) {
 		parts.clear();
-		for (MultipartSlot slot : MultipartSlot.values()) {
-			if (!(tag.containsKey(slot.name(), 10))) {
-				continue;
-			}
-			CompoundTag partStateTag = tag.getCompound(slot.name());
-			MultipartState state = MultipartHelper.deserializeMultipartState(partStateTag);
-			parts.put(slot, state);
+		for (Tag tag : list) {
+			MultipartState state = MultipartHelper.deserializeMultipartState((CompoundTag)tag);
+			parts.add(state);
 		}
 	}
 
 	@Override
 	public CompoundTag toTag(CompoundTag tag) {
-		partsToTag(tag);
+		tag.put("parts", partsToTag());
 		return super.toTag(tag);
 	}
 
 	@Override
 	public void fromTag(CompoundTag tag) {
 		super.fromTag(tag);
-		partsFromTag(tag);
+		ListTag list = tag.getList("parts", NbtType.COMPOUND);
+		partsFromTag(list);
 	}
 
 	@Override
 	public CompoundTag toClientTag(CompoundTag tag) {
-		return partsToTag(tag);
+		tag.put("parts", partsToTag());
+		return tag;
 	}
 
 	@Override
 	public void fromClientTag(CompoundTag tag) {
-		partsFromTag(tag);
+		ListTag list = tag.getList("parts", NbtType.COMPOUND);
+		partsFromTag(list);
 		world.scheduleBlockRender(pos);
 	}
 }

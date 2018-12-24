@@ -12,12 +12,12 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.ExtendedBlockView;
 import net.minecraft.world.World;
 import net.shadowfacts.simplemultipart.client.util.RenderStateProvider;
-import net.shadowfacts.simplemultipart.multipart.MultipartSlot;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 import net.shadowfacts.simplemultipart.util.MultipartHelper;
 import net.shadowfacts.simplemultipart.util.MultipartHitResult;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author shadowfacts
@@ -30,14 +30,6 @@ public class MultipartContainerBlock extends Block implements BlockEntityProvide
 
 	@Override
 	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
-//		if (player.isSneaking()) {
-//			MultipartContainerBlockEntity container = (MultipartContainerBlockEntity)world.getBlockEntity(pos);
-//			System.out.println(container.getParts());
-//			return true;
-//		} else {
-//			return false;
-//		}
-
 		MultipartContainerBlockEntity container = (MultipartContainerBlockEntity)world.getBlockEntity(pos);
 		if (container == null) {
 			return false;
@@ -48,8 +40,7 @@ public class MultipartContainerBlock extends Block implements BlockEntityProvide
 			return false;
 		}
 
-		MultipartState partState = container.get(hit.partSlot);
-		return partState.activate(hit.partSlot, container, player, hand);
+		return hit.partState.activate(container, player, hand);
 	}
 
 	@Override
@@ -59,7 +50,7 @@ public class MultipartContainerBlock extends Block implements BlockEntityProvide
 			return state;
 		}
 
-		Map<MultipartSlot, MultipartState> parts = container.getParts();
+		Set<MultipartState> parts = container.getParts();
 		return new MultipartContainerBlockState(state, parts);
 	}
 
@@ -71,8 +62,8 @@ public class MultipartContainerBlock extends Block implements BlockEntityProvide
 		}
 
 		VoxelShape shape = null;
-		for (Map.Entry<MultipartSlot, MultipartState> e : container.getParts().entrySet()) {
-			VoxelShape partShape = e.getValue().getBoundingShape(e.getKey(), container);
+		for (MultipartState partState : container.getParts()) {
+			VoxelShape partShape = partState.getBoundingShape(container);
 			shape = shape == null ? partShape : VoxelShapes.union(shape, partShape);
 		}
 		return shape == null ? VoxelShapes.empty() : shape;

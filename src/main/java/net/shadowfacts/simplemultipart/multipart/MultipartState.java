@@ -25,14 +25,14 @@ public class MultipartState extends AbstractPropertyContainer<Multipart, Multipa
 		return owner;
 	}
 
-	public MultipartState getStateForRendering(MultipartSlot slot, MultipartContainerBlockEntity container) {
+	public MultipartState getStateForRendering(MultipartContainerBlockEntity container) {
 		//noinspection deprecation
-		return owner.getStateForRendering(this, slot, container);
+		return owner.getStateForRendering(this, container);
 	}
 
-	public VoxelShape getBoundingShape(MultipartSlot slot, MultipartContainerBlockEntity container) {
+	public VoxelShape getBoundingShape(/*@Nullable*/ MultipartContainerBlockEntity container) {
 		//noinspection deprecation
-		return owner.getBoundingShape(this, slot, container);
+		return owner.getBoundingShape(this, container);
 	}
 
 	public List<ItemStack> getDroppedStacks(LootContext.Builder builder) {
@@ -40,9 +40,9 @@ public class MultipartState extends AbstractPropertyContainer<Multipart, Multipa
 		return owner.getDroppedStacks(this, builder);
 	}
 
-	public boolean activate(MultipartSlot slot, MultipartContainerBlockEntity container, PlayerEntity player, Hand hand) {
+	public boolean activate(MultipartContainerBlockEntity container, PlayerEntity player, Hand hand) {
 		//noinspection deprecated
-		return owner.activate(this, slot, container, player, hand);
+		return owner.activate(this, container, player, hand);
 	}
 
 }

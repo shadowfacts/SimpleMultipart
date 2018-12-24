@@ -4,11 +4,11 @@
 			"apply": { "model": "multipart_test:multipart/center" }
 		},
 		{
-			"when": { "slot": "bottom" },
+			"when": { "facing": "down" },
 			"apply": { "model": "multipart_test:multipart/bottom" }
 		},
 		{
-			"when": { "slot": "north" },
+			"when": { "facing": "north" },
 			"apply": { "model": "multipart_test:multipart/vertical" }
 		}
 	]
