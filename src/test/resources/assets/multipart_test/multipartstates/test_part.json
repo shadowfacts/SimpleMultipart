@@ -5,6 +5,7 @@
 		"slot=north": { "model": "multipart_test:multipart/vertical" },
 		"slot=south": { "model": "multipart_test:multipart/vertical", "y": 180 },
 		"slot=east": { "model": "multipart_test:multipart/vertical", "y": 90 },
-		"slot=west": { "model": "multipart_test:multipart/vertical", "y": 270 }
+		"slot=west": { "model": "multipart_test:multipart/vertical", "y": 270 },
+		"inventory": { "model":  "multipart_test:multipart/vertical", "y": 180 }
 	}
 }

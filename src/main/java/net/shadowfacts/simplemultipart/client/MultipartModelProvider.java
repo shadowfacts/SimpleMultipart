@@ -43,6 +43,9 @@ public class MultipartModelProvider implements ModelProvider {
 				multipartModels.add(id);
 				adder.accept(id);
 			}
+
+			// TODO: should multiparts be able to control this?
+			multipartModels.add(new ModelIdentifier(partId, "inventory"));
 		}
 	}
 
