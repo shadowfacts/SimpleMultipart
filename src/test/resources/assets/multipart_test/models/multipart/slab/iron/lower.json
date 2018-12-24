@@ -1,0 +1,6 @@
+{
+	"parent": "multipart_test:multipart/slab/lower",
+	"textures": {
+		"texture": "block/iron_block"
+	}
+}
