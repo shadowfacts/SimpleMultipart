@@ -93,7 +93,7 @@ public class MultipartHelper {
 		return property.getValueAsString(state.get(property));
 	}
 
-	public static MultipartState deserializeBlockState(CompoundTag tag) {
+	public static MultipartState deserializeMultipartState(CompoundTag tag) {
 		if (!tag.containsKey("Name", 8)) {
 			return null;
 		} else {

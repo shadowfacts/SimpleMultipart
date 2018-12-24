@@ -104,7 +104,7 @@ public class MultipartContainerBlockEntity extends BlockEntity implements Client
 				continue;
 			}
 			CompoundTag partStateTag = tag.getCompound(slot.name());
-			MultipartState state = MultipartHelper.deserializeBlockState(partStateTag);
+			MultipartState state = MultipartHelper.deserializeMultipartState(partStateTag);
 			parts.put(slot, state);
 		}
 	}
