@@ -6,7 +6,7 @@
 			"entries": [
 				{
 					"type": "minecraft:item",
-					"name": "multipart_test:red"
+					"name": "multipart_test:test_part"
 				}
 			]
 		}

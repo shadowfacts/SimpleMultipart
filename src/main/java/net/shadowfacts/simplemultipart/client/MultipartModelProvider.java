@@ -3,26 +3,48 @@ package net.shadowfacts.simplemultipart.client;
 import net.fabricmc.fabric.api.client.model.ModelProvider;
 import net.fabricmc.fabric.api.client.model.ModelProviderException;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.block.BlockModels;
 import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.render.model.json.ModelVariantMap;
 import net.minecraft.client.render.model.json.WeightedUnbakedModel;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.resource.Resource;
+import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
+import net.shadowfacts.simplemultipart.SimpleMultipart;
+import net.shadowfacts.simplemultipart.multipart.Multipart;
+import net.shadowfacts.simplemultipart.multipart.MultipartState;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * @author shadowfacts
  */
 public class MultipartModelProvider implements ModelProvider {
 
+	private static final Set<ModelIdentifier> multipartModels = new HashSet<>();
+
 	private final Map<ModelIdentifier, UnbakedModel> unbakedModels = new HashMap<>();
+
+	static void registerMultipartModels(ResourceManager resourceManager, Consumer<ModelIdentifier> adder) {
+		for (Multipart part : SimpleMultipart.MULTIPART) {
+			Identifier partId = SimpleMultipart.MULTIPART.getId(part);
+			for (MultipartState state : part.getStateFactory().getStates()) {
+				String variant = BlockModels.propertyMapToString(state.getEntries());
+				ModelIdentifier id = new ModelIdentifier(partId, variant);
+				multipartModels.add(id);
+				adder.accept(id);
+			}
+		}
+	}
 
 	@Override
 	public UnbakedModel load(Identifier id, Context context) throws ModelProviderException {
@@ -32,7 +54,7 @@ public class MultipartModelProvider implements ModelProvider {
 		ModelIdentifier modelId = (ModelIdentifier)id;
 
 
-		if (!SimpleMultipartClient.multipartModels.contains(modelId)) {
+		if (!multipartModels.contains(modelId)) {
 			return null;
 		}
 
