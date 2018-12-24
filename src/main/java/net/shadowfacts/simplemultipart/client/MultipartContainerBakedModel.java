@@ -13,11 +13,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
 import net.shadowfacts.simplemultipart.container.MultipartContainerBlockState;
-import net.shadowfacts.simplemultipart.multipart.MultipartSlot;
-import net.shadowfacts.simplemultipart.multipart.MultipartState;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -42,7 +39,16 @@ public class MultipartContainerBakedModel implements BakedModel {
 					if (model instanceof MultipartBakedModel) {
 						return ((MultipartBakedModel)model).getMultipartQuads(partState, side, random).stream();
 					} else {
-						return model.getQuads(null, side, random).stream();
+						BlockState fakeState = null;
+
+						// Need to use the same fake block state as used when loading multi-models
+						// otherwise MultipartBakedModel will return no quads for a null state
+						MultipartFakeBlock fakeBlock = MultipartFakeBlock.fakeBlocks.get(partId);
+						if (fakeBlock != null) {
+							fakeState = fakeBlock.getFakeState(partState);
+						}
+
+						return model.getQuads(fakeState, side, random).stream();
 					}
 				})
 				.collect(Collectors.toList());
@@ -65,7 +71,7 @@ public class MultipartContainerBakedModel implements BakedModel {
 
 	@Override
 	public Sprite getSprite() {
-		return MinecraftClient.getInstance().getSpriteAtlas().getSprite("blocks/stone");
+		return MinecraftClient.getInstance().getSpriteAtlas().getSprite("block/stone");
 	}
 
 	@Override

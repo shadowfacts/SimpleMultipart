@@ -1,11 +1,15 @@
 {
-	"variants": {
-		"slot=bottom": { "model": "multipart_test:multipart/bottom" },
-		"slot=top": { "model": "multipart_test:multipart/bottom", "x": 180 },
-		"slot=north": { "model": "multipart_test:multipart/vertical" },
-		"slot=south": { "model": "multipart_test:multipart/vertical", "y": 180 },
-		"slot=east": { "model": "multipart_test:multipart/vertical", "y": 90 },
-		"slot=west": { "model": "multipart_test:multipart/vertical", "y": 270 },
-		"inventory": { "model":  "multipart_test:multipart/vertical", "y": 180 }
-	}
+	"multipart": [
+		{
+			"apply": { "model": "multipart_test:multipart/center" }
+		},
+		{
+			"when": { "slot": "bottom" },
+			"apply": { "model": "multipart_test:multipart/bottom" }
+		},
+		{
+			"when": { "slot": "north" },
+			"apply": { "model": "multipart_test:multipart/vertical" }
+		}
+	]
 }

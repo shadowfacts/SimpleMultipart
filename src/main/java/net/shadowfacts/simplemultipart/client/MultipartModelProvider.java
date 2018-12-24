@@ -2,6 +2,7 @@ package net.shadowfacts.simplemultipart.client;
 
 import net.fabricmc.fabric.api.client.model.ModelProvider;
 import net.fabricmc.fabric.api.client.model.ModelProviderException;
+import net.minecraft.class_816;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.block.BlockModels;
 import net.minecraft.client.render.model.UnbakedModel;
@@ -68,40 +69,63 @@ public class MultipartModelProvider implements ModelProvider {
 		}
 	}
 
-	private UnbakedModel getOrLoadPartModel(ModelIdentifier id) throws ModelProviderException, IOException {
-		UnbakedModel existing = unbakedModels.get(id);
+	private UnbakedModel getOrLoadPartModel(ModelIdentifier modelId) throws ModelProviderException, IOException {
+		UnbakedModel existing = unbakedModels.get(modelId);
 		if (existing != null) {
 			return existing;
 		}
 
-		return loadModel(id);
+		return loadPartModel(modelId);
 	}
 
-	private UnbakedModel loadModel(ModelIdentifier id) throws ModelProviderException, IOException {
-		Identifier partStateId = new Identifier(id.getNamespace(), "multipartstates/" + id.getPath() + ".json");
-		ModelVariantMap variantMap = loadVariantMap(partStateId);
-		Map<String, WeightedUnbakedModel> variants = variantMap.method_3423();
-		variants.forEach((variant, model) -> {
-			unbakedModels.put(new ModelIdentifier(new Identifier(id.getNamespace(), id.getPath()), variant), model);
-		});
+	private UnbakedModel loadPartModel(ModelIdentifier modelId) throws ModelProviderException, IOException {
+		Identifier partId = new Identifier(modelId.getNamespace(), modelId.getPath());
+		Identifier partStateDefId = new Identifier(partId.getNamespace(), "multipartstates/" + partId.getPath() + ".json");
 
-		UnbakedModel model = unbakedModels.get(id);
+		Multipart part = SimpleMultipart.MULTIPART.get(partId);
+		MultipartFakeBlock blockAdapter = new MultipartFakeBlock(part);
+
+		ModelVariantMap variantMap = loadPartVariantMap(blockAdapter, partStateDefId);
+
+		if (variantMap.method_3422()) {
+			class_816 multipartUnbakedModel = variantMap.method_3421();
+			part.getStateFactory().getStates().forEach(state -> {
+				ModelIdentifier stateModelId = new ModelIdentifier(partId, BlockModels.propertyMapToString(state.getEntries()));
+				unbakedModels.put(stateModelId, multipartUnbakedModel);
+			});
+		} else {
+			Map<String, WeightedUnbakedModel> variants = variantMap.method_3423();
+			variants.forEach((variant, model) -> {
+				unbakedModels.put(new ModelIdentifier(partId, variant), model);
+			});
+		}
+
+		UnbakedModel model = unbakedModels.get(modelId);
 		if (model == null) {
-			throw new ModelProviderException("Loaded multipart state " + partStateId + " for model " + id + " but still missing model");
+			throw new ModelProviderException("Loaded multipart state " + partStateDefId + " for model " + modelId + " but still missing model");
 		}
 		return model;
 	}
 
-	private ModelVariantMap loadVariantMap(Identifier id) throws IOException {
+//	private StateFactory<Block, BlockState> getStateFactory(class_816 multipartUnbakedModel) {
+//		try {
+//			Field f = class_816.class.getDeclaredField("field_4329");
+//			f.setAccessible(true);
+//			return (StateFactory<Block, BlockState>)f.get(multipartUnbakedModel);
+//		} catch (ReflectiveOperationException e) {
+//			throw new RuntimeException(e);
+//		}
+//	}
+
+	private ModelVariantMap loadPartVariantMap(MultipartFakeBlock blockAdapter, Identifier partStateDefId) throws IOException {
 		Resource resource = null;
 		Reader reader = null;
 		try {
-			resource = MinecraftClient.getInstance().getResourceManager().getResource(id);
+			resource = MinecraftClient.getInstance().getResourceManager().getResource(partStateDefId);
 			reader = new InputStreamReader(resource.getInputStream());
 
 			ModelVariantMap.class_791 context = new ModelVariantMap.class_791();
-			// context.stateFactory =
-			// TODO: ^ blockstate translation
+			context.method_3426(blockAdapter.getStateFactory());
 			return ModelVariantMap.method_3424(context, reader);
 		} finally {
 			IOUtils.closeQuietly(reader);
