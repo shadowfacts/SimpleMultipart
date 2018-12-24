@@ -18,5 +18,6 @@ dependencies {
 	modCompile "net.fabricmc:fabric-loader:0.3.0.73"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
-	modCompile "net.fabricmc:fabric:0.1.2.62"
+//	modCompile "net.fabricmc:fabric:0.1.2.62"
+	modCompile files("fabric-0.1.2.local.jar") // temporary, until fabric-api #39 is merged
 }

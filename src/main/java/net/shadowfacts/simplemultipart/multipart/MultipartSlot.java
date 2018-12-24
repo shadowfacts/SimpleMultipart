@@ -1,11 +1,12 @@
 package net.shadowfacts.simplemultipart.multipart;
 
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.util.math.Direction;
 
 /**
  * @author shadowfacts
  */
-public enum MultipartSlot {
+public enum MultipartSlot implements StringRepresentable  {
 	TOP,
 	BOTTOM,
 	NORTH,
@@ -30,5 +31,10 @@ public enum MultipartSlot {
 				return EAST;
 		}
 		throw new RuntimeException("Unreachable: got direction outside of DUNSWE");
+	}
+
+	@Override
+	public String asString() {
+		return name().toLowerCase();
 	}
 }

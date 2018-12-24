@@ -1,8 +1,9 @@
 package net.shadowfacts.simplemultipart.client;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.util.math.Direction;
-import net.shadowfacts.simplemultipart.multipart.MultipartSlot;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 
 import java.util.List;
@@ -11,8 +12,13 @@ import java.util.Random;
 /**
  * @author shadowfacts
  */
-public interface MultipartBakedModel {
+public interface MultipartBakedModel extends BakedModel {
 
-	List<BakedQuad> getQuads(MultipartState state, MultipartSlot slot, Direction side, Random random);
+	List<BakedQuad> getMultipartQuads(MultipartState state, Direction side, Random random);
+
+	@Override
+	default List<BakedQuad> getQuads(BlockState state, Direction side, Random random) {
+		return getMultipartQuads(null, side, random);
+	}
 
 }

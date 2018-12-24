@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateFactory;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
@@ -21,6 +22,8 @@ import java.util.List;
  * @author shadowfacts
  */
 public abstract class Multipart {
+
+	public static final EnumProperty<MultipartSlot> SLOT = EnumProperty.create("slot", MultipartSlot.class);
 
 	private StateFactory<Multipart, MultipartState> stateFactory;
 	private MultipartState defaultState;

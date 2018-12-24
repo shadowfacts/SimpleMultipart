@@ -7,7 +7,7 @@
   "initializers": [
     "net.shadowfacts.simplemultipart.SimpleMultipart",
     "net.shadowfacts.simplemultipart.client.SimpleMultipartClient",
-    "net.shadowfacts.simplemultipart.test.MultipartTest"
+    "net.shadowfacts.simplemultipart.test.MultipartTestMod"
   ],
   "requires": {
     "fabric": "*"
