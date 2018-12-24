@@ -2,7 +2,6 @@ package net.shadowfacts.simplemultipart.item;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
@@ -27,67 +26,56 @@ public class ItemMultipart extends Item {
 
 	@Override
 	public ActionResult useOnBlock(ItemUsageContext context) {
-		return place(new ItemPlacementContext(context));
+		return tryPlace(context);
 	}
 
-	protected ActionResult place(ItemPlacementContext context) {
-		MultipartContainerBlockEntity container = getOrCreateContainer(context.getWorld(), context.getPos());
-		if (container == null) {
-			return ActionResult.FAILURE;
+	protected ActionResult tryPlace(ItemUsageContext context) {
+		// If a multipart inside an existing container was clicked, try inserting into that
+		MultipartContainerBlockEntity hitContainer = getContainer(context);
+		if (hitContainer != null && tryPlace(new MultipartPlacementContext(hitContainer, context))) {
+			return ActionResult.SUCCESS;
 		}
 
-		MultipartPlacementContext partContext = new MultipartPlacementContext(container, context);
-		MultipartState state = part.getPlacementState(partContext);
-
-		if (!container.canInsert(state)) {
-//			container.destroyIfEmpty();
-			return ActionResult.FAILURE;
+		// Otherwise, get or create a new container and try inserting into that
+		ItemUsageContext offsetContext = new ItemUsageContext(context.getPlayer(), context.getItemStack(), context.getPos().offset(context.getFacing()), context.getFacing(), context.getHitX(), context.getHitY(), context.getHitZ());
+		MultipartContainerBlockEntity offsetContainer = getOrCreateContainer(offsetContext);
+		if (offsetContainer != null && tryPlace(new MultipartPlacementContext(offsetContainer, offsetContext))) {
+			return ActionResult.SUCCESS;
 		}
 
-		container.insert(state);
-
-		context.getItemStack().addAmount(-1);
-
-		return ActionResult.SUCCESS;
-
-//		MultipartSlot slot = getSlotForPlacement(container, context);
-//		if (slot == null) {
-//			return ActionResult.FAILURE;
-//		}
-//
-//		MultipartState partState = part.getPlacementState(slot, container);
-//		if (!container.canInsert(partState, slot)) {
-//			return ActionResult.FAILURE;
-//		}
-//
-//		container.insert(partState, slot);
-//
-//		context.getItemStack().addAmount(-1);
-//
-//		return ActionResult.SUCCESS;
+		return ActionResult.FAILURE;
 	}
 
-	protected MultipartContainerBlockEntity getOrCreateContainer(World world, BlockPos pos) {
-		BlockState current = world.getBlockState(pos);
-		if (current.getBlock() == SimpleMultipart.containerBlock) {
-			return (MultipartContainerBlockEntity)world.getBlockEntity(pos);
-		} else if (current.isAir()) {
-			world.setBlockState(pos, SimpleMultipart.containerBlock.getDefaultState());
-			return (MultipartContainerBlockEntity)world.getBlockEntity(pos);
+	protected MultipartContainerBlockEntity getContainer(ItemUsageContext context) {
+		BlockState state = context.getWorld().getBlockState(context.getPos());
+		if (state.getBlock() == SimpleMultipart.containerBlock) {
+			return (MultipartContainerBlockEntity)context.getWorld().getBlockEntity(context.getPos());
 		} else {
 			return null;
 		}
 	}
 
-//	protected MultipartSlot getSlotForPlacement(MultipartContainerBlockEntity container, ItemPlacementContext context) {
-//		MultipartSlot slot = MultipartSlot.fromClickedSide(context.getFacing());
-//		if (part.isValidSlot(slot) && !container.hasPartInSlot(slot)) {
-//			return slot;
-//		}
-//		if (part.isValidSlot(MultipartSlot.CENTER) && !container.hasPartInSlot(MultipartSlot.CENTER)) {
-//			return MultipartSlot.CENTER;
-//		}
-//		return null;
-//	}
+	protected MultipartContainerBlockEntity getOrCreateContainer(ItemUsageContext context) {
+		MultipartContainerBlockEntity container = getContainer(context);
+		if (container == null) {
+			BlockState existing = context.getWorld().getBlockState(context.getPos());
+			if (existing.isAir()) { // TODO: should check is replaceable (might not be mapped?)
+				context.getWorld().setBlockState(context.getPos(), SimpleMultipart.containerBlock.getDefaultState());
+				container = (MultipartContainerBlockEntity)context.getWorld().getBlockEntity(context.getPos());
+			}
+		}
+		return container;
+	}
+
+	protected boolean tryPlace(MultipartPlacementContext context) {
+		MultipartState placementState = part.getPlacementState(context);
+
+		if (context.getContainer().canInsert(placementState)) {
+			context.getContainer().insert(placementState);
+			context.getItemStack().addAmount(-1);
+			return true;
+		}
+		return false;
+	}
 
 }
