@@ -17,6 +17,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.loot.context.LootContext;
 import net.minecraft.world.loot.context.Parameters;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
+import net.shadowfacts.simplemultipart.api.MultipartContainer;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 import net.shadowfacts.simplemultipart.multipart.entity.MultipartEntity;
 import net.shadowfacts.simplemultipart.multipart.entity.MultipartEntityProvider;
@@ -29,7 +30,7 @@ import java.util.*;
 /**
  * @author shadowfacts
  */
-public class MultipartContainerBlockEntity extends BlockEntity implements ClientSerializable {
+public class MultipartContainerBlockEntity extends BlockEntity implements MultipartContainer, ClientSerializable {
 
 	private Set<Entry> parts = new HashSet<>();
 
@@ -37,10 +38,12 @@ public class MultipartContainerBlockEntity extends BlockEntity implements Client
 		super(SimpleMultipart.containerBlockEntity);
 	}
 
+	@Override
 	public Set<MultipartView> getParts() {
 		return ImmutableSet.copyOf(parts);
 	}
 
+	@Override
 	public boolean canInsert(MultipartState partState) {
 		VoxelShape newShape = partState.getBoundingShape(null);
 		for (Entry e : parts) {
@@ -53,7 +56,12 @@ public class MultipartContainerBlockEntity extends BlockEntity implements Client
 		return true;
 	}
 
+	@Override
 	public void insert(MultipartState partState) {
+		if (!canInsert(partState)) {
+			return;
+		}
+
 		MultipartEntity entity = null;
 		if (partState.getMultipart() instanceof MultipartEntityProvider) {
 			entity = ((MultipartEntityProvider)partState.getMultipart()).createMultipartEntity(partState, this);
@@ -63,6 +71,7 @@ public class MultipartContainerBlockEntity extends BlockEntity implements Client
 		world.scheduleBlockRender(pos);
 	}
 
+	@Override
 	public void remove(MultipartState partState) {
 		parts.removeIf(e -> e.state == partState);
 
@@ -71,6 +80,7 @@ public class MultipartContainerBlockEntity extends BlockEntity implements Client
 		}
 	}
 
+	@Override
 	public boolean breakPart(MultipartState partState) {
 		Optional<Entry> entry = parts.stream().filter(e -> e.state == partState).findFirst();
 		if (!entry.isPresent()) {

@@ -13,14 +13,13 @@ import net.shadowfacts.simplemultipart.multipart.entity.MultipartEntity;
 import net.shadowfacts.simplemultipart.multipart.entity.MultipartEntityProvider;
 import net.shadowfacts.simplemultipart.api.MultipartView;
 
-import java.util.function.Function;
-
 /**
  * @author shadowfacts
  */
-public class EntityTestPart extends Multipart implements MultipartEntityProvider<EntityTestPart.Entity> {
+public class EntityTestPart extends Multipart implements MultipartEntityProvider {
 
 	@Override
+	@Deprecated
 	public VoxelShape getBoundingShape(MultipartState state, MultipartView view) {
 		return VoxelShapes.cube(6/16f, 6/16f, 6/16f, 10/16f, 10/16f, 10/16f);
 	}
@@ -34,8 +33,8 @@ public class EntityTestPart extends Multipart implements MultipartEntityProvider
 	}
 
 	@Override
-	public Function<MultipartContainerBlockEntity, Entity> getMultipartEntityFactory() {
-		return Entity::new;
+	public MultipartEntity createMultipartEntity(MultipartState state, MultipartContainerBlockEntity container) {
+		return new Entity(container);
 	}
 
 	public static class Entity extends MultipartEntity {

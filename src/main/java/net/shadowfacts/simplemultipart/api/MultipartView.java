@@ -1,6 +1,5 @@
 package net.shadowfacts.simplemultipart.api;
 
-import net.shadowfacts.simplemultipart.container.MultipartContainerBlockEntity;
 import net.shadowfacts.simplemultipart.multipart.Multipart;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 import net.shadowfacts.simplemultipart.multipart.entity.MultipartEntity;
@@ -11,7 +10,7 @@ import net.shadowfacts.simplemultipart.multipart.entity.MultipartEntity;
 // TODO: better name for this
 public interface MultipartView {
 
-	MultipartContainerBlockEntity getContainer();
+	MultipartContainer getContainer();
 
 	MultipartState getState();
 
