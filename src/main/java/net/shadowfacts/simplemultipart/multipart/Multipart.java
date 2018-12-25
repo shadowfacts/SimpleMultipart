@@ -5,17 +5,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateFactory;
-import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.loot.LootSupplier;
 import net.minecraft.world.loot.LootTables;
 import net.minecraft.world.loot.context.LootContext;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
-import net.shadowfacts.simplemultipart.container.MultipartContainerBlockEntity;
 import net.shadowfacts.simplemultipart.util.MultipartPlacementContext;
+import net.shadowfacts.simplemultipart.api.MultipartView;
 
 import java.util.List;
 
@@ -58,7 +56,7 @@ public abstract class Multipart {
 	 * Can be overridden, should only be called via {@link MultipartState#getStateForRendering}
 	 */
 	@Deprecated
-	public MultipartState getStateForRendering(MultipartState state, MultipartContainerBlockEntity container) {
+	public MultipartState getStateForRendering(MultipartState state, MultipartView view) {
 		return state;
 	}
 
@@ -66,7 +64,7 @@ public abstract class Multipart {
 	 * Can be overridden, should only be called via {@link MultipartState#getBoundingShape}
 	 */
 	@Deprecated
-	public abstract VoxelShape getBoundingShape(/*@Nullable*/ MultipartState state, MultipartContainerBlockEntity container);
+	public abstract VoxelShape getBoundingShape(/*@Nullable*/ MultipartState state, MultipartView view);
 
 	public Identifier getDropTableId() {
 		if (dropTableId == null) {
@@ -80,7 +78,7 @@ public abstract class Multipart {
 	 * Can be overridden, should only be called via {@link MultipartState#getDroppedStacks)}
 	 */
 	@Deprecated
-	public List<ItemStack> getDroppedStacks(MultipartState state, LootContext.Builder builder) {
+	public List<ItemStack> getDroppedStacks(MultipartState state, MultipartView view, LootContext.Builder builder) {
 		Identifier dropTableId = getDropTableId();
 		if (dropTableId == LootTables.EMPTY) {
 			return ImmutableList.of();
@@ -96,7 +94,7 @@ public abstract class Multipart {
 	 * Can be overridden, should only be called via {@link MultipartState#activate}
 	 */
 	@Deprecated
-	public boolean activate(MultipartState state, MultipartContainerBlockEntity container, PlayerEntity player, Hand hand) {
+	public boolean activate(MultipartState state, MultipartView view, PlayerEntity player, Hand hand) {
 		return false;
 	}
 

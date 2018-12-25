@@ -12,11 +12,10 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.ExtendedBlockView;
 import net.minecraft.world.World;
 import net.shadowfacts.simplemultipart.client.util.RenderStateProvider;
-import net.shadowfacts.simplemultipart.multipart.MultipartState;
 import net.shadowfacts.simplemultipart.util.MultipartHelper;
 import net.shadowfacts.simplemultipart.util.MultipartHitResult;
+import net.shadowfacts.simplemultipart.api.MultipartView;
 
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -40,7 +39,7 @@ public class MultipartContainerBlock extends Block implements BlockEntityProvide
 			return false;
 		}
 
-		return hit.partState.activate(container, player, hand);
+		return hit.view.getState().activate(hit.view, player, hand);
 	}
 
 	@Override
@@ -50,7 +49,7 @@ public class MultipartContainerBlock extends Block implements BlockEntityProvide
 			return state;
 		}
 
-		Set<MultipartState> parts = container.getParts();
+		Set<MultipartView> parts = container.getParts();
 		return new MultipartContainerBlockState(state, parts);
 	}
 
@@ -62,8 +61,8 @@ public class MultipartContainerBlock extends Block implements BlockEntityProvide
 		}
 
 		VoxelShape shape = null;
-		for (MultipartState partState : container.getParts()) {
-			VoxelShape partShape = partState.getBoundingShape(container);
+		for (MultipartView view : container.getParts()) {
+			VoxelShape partShape = view.getState().getBoundingShape(view);
 			shape = shape == null ? partShape : VoxelShapes.union(shape, partShape);
 		}
 		return shape == null ? VoxelShapes.empty() : shape;

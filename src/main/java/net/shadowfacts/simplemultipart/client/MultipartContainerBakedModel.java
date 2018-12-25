@@ -31,13 +31,13 @@ public class MultipartContainerBakedModel implements BakedModel {
 		MultipartContainerBlockState containerState = (MultipartContainerBlockState)state;
 		// TODO: would manually building the list be more efficient?
 		return containerState.getParts().stream()
-				.flatMap(partState -> {
-					Identifier partId = SimpleMultipart.MULTIPART.getId(partState.getMultipart());
-					String variant = BlockModels.propertyMapToString(partState.getEntries());
+				.flatMap(view -> {
+					Identifier partId = SimpleMultipart.MULTIPART.getId(view.getMultipart());
+					String variant = BlockModels.propertyMapToString(view.getState().getEntries());
 					ModelIdentifier modelId = new ModelIdentifier(partId, variant);
 					BakedModel model = MinecraftClient.getInstance().getBakedModelManager().getModel(modelId);
 					if (model instanceof MultipartBakedModel) {
-						return ((MultipartBakedModel)model).getMultipartQuads(partState, side, random).stream();
+						return ((MultipartBakedModel)model).getMultipartQuads(view, side, random).stream();
 					} else {
 						BlockState fakeState = null;
 
@@ -45,7 +45,7 @@ public class MultipartContainerBakedModel implements BakedModel {
 						// otherwise MultipartBakedModel will return no quads for a null state
 						MultipartFakeBlock fakeBlock = MultipartFakeBlock.fakeBlocks.get(partId);
 						if (fakeBlock != null) {
-							fakeState = fakeBlock.getFakeState(partState);
+							fakeState = fakeBlock.getFakeState(view.getState());
 						}
 
 						return model.getQuads(fakeState, side, random).stream();

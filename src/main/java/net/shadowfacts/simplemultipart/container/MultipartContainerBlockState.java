@@ -1,9 +1,8 @@
 package net.shadowfacts.simplemultipart.container;
 
 import net.minecraft.block.BlockState;
-import net.shadowfacts.simplemultipart.multipart.MultipartState;
+import net.shadowfacts.simplemultipart.api.MultipartView;
 
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -11,14 +10,14 @@ import java.util.Set;
  */
 public class MultipartContainerBlockState extends BlockState {
 
-	private Set<MultipartState> parts;
+	private Set<MultipartView> parts;
 
-	public MultipartContainerBlockState(BlockState delegate, Set<MultipartState> parts) {
+	public MultipartContainerBlockState(BlockState delegate, Set<MultipartView> parts) {
 		super(delegate.getBlock(), delegate.getEntries());
 		this.parts = parts;
 	}
 
-	public Set<MultipartState> getParts() {
+	public Set<MultipartView> getParts() {
 		return parts;
 	}
 }

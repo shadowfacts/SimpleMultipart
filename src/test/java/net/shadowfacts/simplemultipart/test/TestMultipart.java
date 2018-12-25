@@ -7,10 +7,10 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
-import net.shadowfacts.simplemultipart.container.MultipartContainerBlockEntity;
 import net.shadowfacts.simplemultipart.multipart.Multipart;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 import net.shadowfacts.simplemultipart.util.MultipartPlacementContext;
+import net.shadowfacts.simplemultipart.api.MultipartView;
 
 /**
  * @author shadowfacts
@@ -35,7 +35,7 @@ public class TestMultipart extends Multipart {
 
 	@Override
 	@Deprecated
-	public VoxelShape getBoundingShape(MultipartState state, MultipartContainerBlockEntity container) {
+	public VoxelShape getBoundingShape(MultipartState state, MultipartView view) {
 		Direction side = state.get(Properties.FACING);
 		switch (side) {
 			case UP:
@@ -56,7 +56,7 @@ public class TestMultipart extends Multipart {
 
 	@Override
 	@Deprecated
-	public boolean activate(MultipartState state, MultipartContainerBlockEntity container, PlayerEntity player, Hand hand) {
+	public boolean activate(MultipartState state, MultipartView view, PlayerEntity player, Hand hand) {
 		Direction side = state.get(Properties.FACING);
 		System.out.println("part activated on " + side);
 		return true;

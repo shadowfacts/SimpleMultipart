@@ -8,7 +8,7 @@ import net.minecraft.state.property.Property;
 import net.minecraft.util.Hand;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.loot.context.LootContext;
-import net.shadowfacts.simplemultipart.container.MultipartContainerBlockEntity;
+import net.shadowfacts.simplemultipart.api.MultipartView;
 
 import java.util.List;
 
@@ -25,24 +25,24 @@ public class MultipartState extends AbstractPropertyContainer<Multipart, Multipa
 		return owner;
 	}
 
-	public MultipartState getStateForRendering(MultipartContainerBlockEntity container) {
+	public MultipartState getStateForRendering(MultipartView view) {
 		//noinspection deprecation
-		return owner.getStateForRendering(this, container);
+		return owner.getStateForRendering(this, view);
 	}
 
-	public VoxelShape getBoundingShape(/*@Nullable*/ MultipartContainerBlockEntity container) {
+	public VoxelShape getBoundingShape(/*@Nullable*/ MultipartView view) {
 		//noinspection deprecation
-		return owner.getBoundingShape(this, container);
+		return owner.getBoundingShape(this, view);
 	}
 
-	public List<ItemStack> getDroppedStacks(LootContext.Builder builder) {
+	public List<ItemStack> getDroppedStacks(MultipartView view, LootContext.Builder builder) {
 		//noinspection deprecated
-		return owner.getDroppedStacks(this, builder);
+		return owner.getDroppedStacks(this, view, builder);
 	}
 
-	public boolean activate(MultipartContainerBlockEntity container, PlayerEntity player, Hand hand) {
+	public boolean activate(MultipartView view, PlayerEntity player, Hand hand) {
 		//noinspection deprecated
-		return owner.activate(this, container, player, hand);
+		return owner.activate(this, view, player, hand);
 	}
 
 }

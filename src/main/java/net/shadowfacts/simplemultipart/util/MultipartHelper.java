@@ -51,22 +51,14 @@ public class MultipartHelper {
 
 	public static MultipartHitResult rayTrace(MultipartContainerBlockEntity container, World world, BlockPos pos, Vec3d start, Vec3d end) {
 		return container.getParts().stream()
-				.map(partState -> {
-					VoxelShape shape = partState.getBoundingShape(container);
+				.map(view -> {
+					VoxelShape shape = view.getState().getBoundingShape(view);
 					HitResult result = shape.rayTrace(start, end, pos);
-					return result == null ? null : new MultipartHitResult(result, partState);
+					return result == null ? null : new MultipartHitResult(result, view);
 				})
 				.filter(Objects::nonNull)
 				.min(Comparator.comparingDouble(hit -> hit.pos.subtract(start).lengthSquared()))
 				.orElse(null);
-	}
-
-	public static List<ItemStack> getDroppedStacks(MultipartState state, ServerWorld world, BlockPos pos) {
-		LootContext.Builder builder = new LootContext.Builder(world);
-		builder.setRandom(world.random);
-		builder.put(SimpleMultipart.MULTIPART_STATE_PARAMETER, state);
-		builder.put(Parameters.POSITION, pos);
-		return state.getDroppedStacks(builder);
 	}
 
 	public static CompoundTag serializeMultipartState(MultipartState state) {

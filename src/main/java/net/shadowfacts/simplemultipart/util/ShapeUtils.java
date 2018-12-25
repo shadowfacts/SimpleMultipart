@@ -10,6 +10,7 @@ import net.minecraft.util.shape.VoxelShapes;
 public class ShapeUtils {
 
 	public static boolean intersect(VoxelShape a, VoxelShape b) {
+		// TODO: this seems very inefficient
 		VoxelShape overlap = VoxelShapes.combine(a, b, BooleanBiFunction.AND);
 		return !overlap.isEmpty();
 	}

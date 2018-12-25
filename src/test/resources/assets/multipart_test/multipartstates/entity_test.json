@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"": { "model": "multipart_test:multipart/entity_test" },
+		"inventory": { "model": "multipart_test:multipart/entity_test" }
+	}
+}

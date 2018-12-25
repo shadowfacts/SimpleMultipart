@@ -1,4 +1,5 @@
 {
+	"parent": "simplemultipart:multipart/multipart",
 	"textures": {
 		"texture": "block/diamond_block"
 	},

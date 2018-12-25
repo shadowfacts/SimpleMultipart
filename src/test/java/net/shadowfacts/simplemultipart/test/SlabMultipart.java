@@ -6,10 +6,10 @@ import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
-import net.shadowfacts.simplemultipart.container.MultipartContainerBlockEntity;
 import net.shadowfacts.simplemultipart.multipart.Multipart;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 import net.shadowfacts.simplemultipart.util.MultipartPlacementContext;
+import net.shadowfacts.simplemultipart.api.MultipartView;
 
 /**
  * @author shadowfacts
@@ -64,7 +64,7 @@ public class SlabMultipart extends Multipart {
 	}
 
 	@Override
-	public VoxelShape getBoundingShape(MultipartState state, MultipartContainerBlockEntity container) {
+	public VoxelShape getBoundingShape(MultipartState state, MultipartView view) {
 		return state.get(HALF) == BlockHalf.UPPER ? UPPER_BOX : LOWER_BOX;
 	}
 }

@@ -1,0 +1,6 @@
+{
+	"parent": "multipart_test:multipart/center",
+	"textures": {
+		"texture": "block/prismarine"
+	}
+}
