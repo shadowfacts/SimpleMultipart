@@ -4,10 +4,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
-import net.shadowfacts.simplemultipart.container.MultipartContainerBlockEntity;
+import net.shadowfacts.simplemultipart.api.MultipartContainer;
+import net.shadowfacts.simplemultipart.container.ContainerBlockEntity;
 import net.shadowfacts.simplemultipart.multipart.Multipart;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 import net.shadowfacts.simplemultipart.util.MultipartPlacementContext;
@@ -31,14 +30,14 @@ public class ItemMultipart extends Item {
 
 	protected ActionResult tryPlace(ItemUsageContext context) {
 		// If a multipart inside an existing container was clicked, try inserting into that
-		MultipartContainerBlockEntity hitContainer = getContainer(context);
+		MultipartContainer hitContainer = getContainer(context);
 		if (hitContainer != null && tryPlace(new MultipartPlacementContext(hitContainer, context))) {
 			return ActionResult.SUCCESS;
 		}
 
 		// Otherwise, get or create a new container and try inserting into that
 		ItemUsageContext offsetContext = new ItemUsageContext(context.getPlayer(), context.getItemStack(), context.getPos().offset(context.getFacing()), context.getFacing(), context.getHitX(), context.getHitY(), context.getHitZ());
-		MultipartContainerBlockEntity offsetContainer = getOrCreateContainer(offsetContext);
+		MultipartContainer offsetContainer = getOrCreateContainer(offsetContext);
 		if (offsetContainer != null && tryPlace(new MultipartPlacementContext(offsetContainer, offsetContext))) {
 			return ActionResult.SUCCESS;
 		}
@@ -46,22 +45,22 @@ public class ItemMultipart extends Item {
 		return ActionResult.FAILURE;
 	}
 
-	protected MultipartContainerBlockEntity getContainer(ItemUsageContext context) {
+	protected MultipartContainer getContainer(ItemUsageContext context) {
 		BlockState state = context.getWorld().getBlockState(context.getPos());
 		if (state.getBlock() == SimpleMultipart.containerBlock) {
-			return (MultipartContainerBlockEntity)context.getWorld().getBlockEntity(context.getPos());
+			return (MultipartContainer)context.getWorld().getBlockEntity(context.getPos());
 		} else {
 			return null;
 		}
 	}
 
-	protected MultipartContainerBlockEntity getOrCreateContainer(ItemUsageContext context) {
-		MultipartContainerBlockEntity container = getContainer(context);
+	protected MultipartContainer getOrCreateContainer(ItemUsageContext context) {
+		MultipartContainer container = getContainer(context);
 		if (container == null) {
 			BlockState existing = context.getWorld().getBlockState(context.getPos());
 			if (existing.isAir()) { // TODO: should check is replaceable (might not be mapped?)
 				context.getWorld().setBlockState(context.getPos(), SimpleMultipart.containerBlock.getDefaultState());
-				container = (MultipartContainerBlockEntity)context.getWorld().getBlockEntity(context.getPos());
+				container = (MultipartContainer)context.getWorld().getBlockEntity(context.getPos());
 			}
 		}
 		return container;

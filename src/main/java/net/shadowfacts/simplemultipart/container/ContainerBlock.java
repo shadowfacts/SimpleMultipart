@@ -11,6 +11,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.ExtendedBlockView;
 import net.minecraft.world.World;
+import net.shadowfacts.simplemultipart.api.MultipartContainer;
 import net.shadowfacts.simplemultipart.client.util.RenderStateProvider;
 import net.shadowfacts.simplemultipart.util.MultipartHelper;
 import net.shadowfacts.simplemultipart.util.MultipartHitResult;
@@ -21,15 +22,15 @@ import java.util.Set;
 /**
  * @author shadowfacts
  */
-public class MultipartContainerBlock extends Block implements BlockEntityProvider, RenderStateProvider {
+public class ContainerBlock extends Block implements BlockEntityProvider, RenderStateProvider {
 
-	public MultipartContainerBlock() {
+	public ContainerBlock() {
 		super(FabricBlockSettings.of(Material.STONE).build());
 	}
 
 	@Override
 	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
-		MultipartContainerBlockEntity container = (MultipartContainerBlockEntity)world.getBlockEntity(pos);
+		MultipartContainer container = (MultipartContainer)world.getBlockEntity(pos);
 		if (container == null) {
 			return false;
 		}
@@ -44,18 +45,19 @@ public class MultipartContainerBlock extends Block implements BlockEntityProvide
 
 	@Override
 	public BlockState getStateForRendering(BlockState state, BlockPos pos, ExtendedBlockView world) {
-		MultipartContainerBlockEntity container = (MultipartContainerBlockEntity)world.getBlockEntity(pos);
+		MultipartContainer container = (MultipartContainer)world.getBlockEntity(pos);
 		if (container == null) {
 			return state;
 		}
 
 		Set<MultipartView> parts = container.getParts();
-		return new MultipartContainerBlockState(state, parts);
+		return new ContainerBlockState(state, parts);
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getBoundingShape(BlockState state, BlockView world, BlockPos pos) {
-		MultipartContainerBlockEntity container = (MultipartContainerBlockEntity)world.getBlockEntity(pos);
+		MultipartContainer container = (MultipartContainer)world.getBlockEntity(pos);
 		if (container == null) {
 			return VoxelShapes.empty();
 		}
@@ -69,7 +71,7 @@ public class MultipartContainerBlock extends Block implements BlockEntityProvide
 	}
 
 	@Override
-	public MultipartContainerBlockEntity createBlockEntity(BlockView world) {
-		return new MultipartContainerBlockEntity();
+	public ContainerBlockEntity createBlockEntity(BlockView world) {
+		return new ContainerBlockEntity();
 	}
 }

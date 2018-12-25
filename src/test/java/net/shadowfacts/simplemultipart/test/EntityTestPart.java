@@ -6,7 +6,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
-import net.shadowfacts.simplemultipart.container.MultipartContainerBlockEntity;
+import net.shadowfacts.simplemultipart.container.ContainerBlockEntity;
 import net.shadowfacts.simplemultipart.multipart.Multipart;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 import net.shadowfacts.simplemultipart.multipart.entity.MultipartEntity;
@@ -33,12 +33,12 @@ public class EntityTestPart extends Multipart implements MultipartEntityProvider
 	}
 
 	@Override
-	public MultipartEntity createMultipartEntity(MultipartState state, MultipartContainerBlockEntity container) {
+	public MultipartEntity createMultipartEntity(MultipartState state, ContainerBlockEntity container) {
 		return new Entity(container);
 	}
 
 	public static class Entity extends MultipartEntity {
-		public Entity(MultipartContainerBlockEntity container) {
+		public Entity(ContainerBlockEntity container) {
 			super(container);
 		}
 

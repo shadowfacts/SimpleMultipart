@@ -9,9 +9,9 @@ import net.minecraft.world.loot.context.LootContextType;
 import net.minecraft.world.loot.context.LootContextTypes;
 import net.minecraft.world.loot.context.Parameter;
 import net.minecraft.world.loot.context.Parameters;
-import net.shadowfacts.simplemultipart.container.MultipartContainerEventHandler;
-import net.shadowfacts.simplemultipart.container.MultipartContainerBlock;
-import net.shadowfacts.simplemultipart.container.MultipartContainerBlockEntity;
+import net.shadowfacts.simplemultipart.container.ContainerBlockEntity;
+import net.shadowfacts.simplemultipart.container.ContainerEventHandler;
+import net.shadowfacts.simplemultipart.container.ContainerBlock;
 import net.shadowfacts.simplemultipart.multipart.Multipart;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 
@@ -30,14 +30,14 @@ public class SimpleMultipart implements ModInitializer {
 	public static final Parameter<MultipartState> MULTIPART_STATE_PARAMETER = new Parameter<>(new Identifier(MODID, "multipart_state"));
 	public static final LootContextType MULTIPART_LOOT_CONTEXT = createMultipartLootContextType();
 
-	public static final MultipartContainerBlock containerBlock = new MultipartContainerBlock();
-	public static final BlockEntityType<MultipartContainerBlockEntity> containerBlockEntity = createBlockEntityType();
+	public static final ContainerBlock containerBlock = new ContainerBlock();
+	public static final BlockEntityType<ContainerBlockEntity> containerBlockEntity = createBlockEntityType();
 
 	@Override
 	public void onInitialize() {
 		Registry.register(Registry.BLOCK, new Identifier(MODID, "container"), containerBlock);
 
-		MultipartContainerEventHandler.register();
+		ContainerEventHandler.register();
 	}
 
 	private static Registry<Multipart> createMultipartRegistry() {
@@ -46,8 +46,8 @@ public class SimpleMultipart implements ModInitializer {
 		return registry;
 	}
 
-	private static BlockEntityType<MultipartContainerBlockEntity> createBlockEntityType() {
-		BlockEntityType.Builder<MultipartContainerBlockEntity> builder = BlockEntityType.Builder.create(MultipartContainerBlockEntity::new);
+	private static BlockEntityType<ContainerBlockEntity> createBlockEntityType() {
+		BlockEntityType.Builder<ContainerBlockEntity> builder = BlockEntityType.Builder.create(ContainerBlockEntity::new);
 		return Registry.register(Registry.BLOCK_ENTITY, new Identifier(MODID, "container"), builder.method_11034(null));
 	}
 

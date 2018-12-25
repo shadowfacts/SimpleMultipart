@@ -1,6 +1,6 @@
 package net.shadowfacts.simplemultipart.multipart.entity;
 
-import net.shadowfacts.simplemultipart.container.MultipartContainerBlockEntity;
+import net.shadowfacts.simplemultipart.api.MultipartContainer;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 
 /**
@@ -9,6 +9,6 @@ import net.shadowfacts.simplemultipart.multipart.MultipartState;
 public interface MultipartEntityProvider {
 
 	/*@Nullable*/
-	MultipartEntity createMultipartEntity(MultipartState state, MultipartContainerBlockEntity container);
+	MultipartEntity createMultipartEntity(MultipartState state, MultipartContainer container);
 
 }

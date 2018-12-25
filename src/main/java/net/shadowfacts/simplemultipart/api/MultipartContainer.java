@@ -19,4 +19,6 @@ public interface MultipartContainer {
 
 	boolean breakPart(MultipartState state);
 
+	void schedulePartSave();
+
 }

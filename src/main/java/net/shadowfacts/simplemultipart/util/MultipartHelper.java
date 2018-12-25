@@ -2,9 +2,7 @@ package net.shadowfacts.simplemultipart.util;
 
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.PropertyContainer;
 import net.minecraft.state.StateFactory;
 import net.minecraft.state.property.Property;
@@ -15,10 +13,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
-import net.minecraft.world.loot.context.LootContext;
-import net.minecraft.world.loot.context.Parameters;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
-import net.shadowfacts.simplemultipart.container.MultipartContainerBlockEntity;
+import net.shadowfacts.simplemultipart.api.MultipartContainer;
+import net.shadowfacts.simplemultipart.container.ContainerBlockEntity;
 import net.shadowfacts.simplemultipart.multipart.Multipart;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 
@@ -29,7 +26,7 @@ import java.util.*;
  */
 public class MultipartHelper {
 
-	public static MultipartHitResult rayTrace(MultipartContainerBlockEntity container, World world, BlockPos pos, PlayerEntity player) {
+	public static MultipartHitResult rayTrace(MultipartContainer container, World world, BlockPos pos, PlayerEntity player) {
 		// copied from BoatItem::use
 		float var6 = MathHelper.lerp(1.0F, player.prevPitch, player.pitch);
 		float var7 = MathHelper.lerp(1.0F, player.prevYaw, player.yaw);
@@ -49,7 +46,7 @@ public class MultipartHelper {
 		return rayTrace(container, world, pos, start, end);
 	}
 
-	public static MultipartHitResult rayTrace(MultipartContainerBlockEntity container, World world, BlockPos pos, Vec3d start, Vec3d end) {
+	public static MultipartHitResult rayTrace(MultipartContainer container, World world, BlockPos pos, Vec3d start, Vec3d end) {
 		return container.getParts().stream()
 				.map(view -> {
 					VoxelShape shape = view.getState().getBoundingShape(view);

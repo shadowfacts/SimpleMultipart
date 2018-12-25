@@ -5,25 +5,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.shadowfacts.simplemultipart.container.MultipartContainerBlockEntity;
+import net.shadowfacts.simplemultipart.api.MultipartContainer;
 
 /**
  * @author shadowfacts
  */
 public class MultipartPlacementContext extends ItemUsageContext {
 
-	private final MultipartContainerBlockEntity container;
+	private final MultipartContainer container;
 
-	public MultipartPlacementContext(MultipartContainerBlockEntity container, PlayerEntity player, ItemStack stack, BlockPos pos, Direction side, float hitX, float hitY, float hitZ) {
+	public MultipartPlacementContext(MultipartContainer container, PlayerEntity player, ItemStack stack, BlockPos pos, Direction side, float hitX, float hitY, float hitZ) {
 		super(player, stack, pos, side, hitX, hitY, hitZ);
 		this.container = container;
 	}
 
-	public MultipartPlacementContext(MultipartContainerBlockEntity container, ItemUsageContext context) {
+	public MultipartPlacementContext(MultipartContainer container, ItemUsageContext context) {
 		this(container, context.getPlayer(), context.getItemStack(), context.getPos(), context.getFacing(), context.getHitX(), context.getHitY(), context.getHitZ());
 	}
 
-	public MultipartContainerBlockEntity getContainer() {
+	public MultipartContainer getContainer() {
 		return container;
 	}
 

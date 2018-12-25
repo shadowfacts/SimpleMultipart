@@ -12,7 +12,7 @@ import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
-import net.shadowfacts.simplemultipart.container.MultipartContainerBlockState;
+import net.shadowfacts.simplemultipart.container.ContainerBlockState;
 
 import java.util.List;
 import java.util.Random;
@@ -25,10 +25,10 @@ public class MultipartContainerBakedModel implements BakedModel {
 
 	@Override
 	public List<BakedQuad> getQuads(BlockState state, Direction side, Random random) {
-		if (!(state instanceof MultipartContainerBlockState)) {
+		if (!(state instanceof ContainerBlockState)) {
 			return null;
 		}
-		MultipartContainerBlockState containerState = (MultipartContainerBlockState)state;
+		ContainerBlockState containerState = (ContainerBlockState)state;
 		// TODO: would manually building the list be more efficient?
 		return containerState.getParts().stream()
 				.flatMap(view -> {

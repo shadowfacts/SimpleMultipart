@@ -1,21 +1,21 @@
 package net.shadowfacts.simplemultipart.multipart.entity;
 
 import net.minecraft.nbt.CompoundTag;
-import net.shadowfacts.simplemultipart.container.MultipartContainerBlockEntity;
+import net.shadowfacts.simplemultipart.api.MultipartContainer;
 
 /**
  * @author shadowfacts
  */
 public abstract class MultipartEntity {
 
-	public MultipartContainerBlockEntity container;
+	public MultipartContainer container;
 
-	public MultipartEntity(MultipartContainerBlockEntity container) {
+	public MultipartEntity(MultipartContainer container) {
 		this.container = container;
 	}
 
 	protected void scheduleSave() {
-		container.markDirty(); // see yarn #360
+		container.schedulePartSave();
 	}
 
 	public CompoundTag toTag(CompoundTag tag) {

@@ -30,11 +30,11 @@ import java.util.*;
 /**
  * @author shadowfacts
  */
-public class MultipartContainerBlockEntity extends BlockEntity implements MultipartContainer, ClientSerializable {
+public class ContainerBlockEntity extends BlockEntity implements MultipartContainer, ClientSerializable {
 
 	private Set<Entry> parts = new HashSet<>();
 
-	public MultipartContainerBlockEntity() {
+	public ContainerBlockEntity() {
 		super(SimpleMultipart.containerBlockEntity);
 	}
 
@@ -103,7 +103,12 @@ public class MultipartContainerBlockEntity extends BlockEntity implements Multip
 		return true;
 	}
 
-	private List<ItemStack> getDroppedStacks(MultipartContainerBlockEntity.Entry e, ServerWorld world, BlockPos pos) {
+	@Override
+	public void schedulePartSave() {
+		markDirty(); // see yarn #360
+	}
+
+	private List<ItemStack> getDroppedStacks(ContainerBlockEntity.Entry e, ServerWorld world, BlockPos pos) {
 		LootContext.Builder builder = new LootContext.Builder(world);
 		builder.setRandom(world.random);
 		builder.put(SimpleMultipart.MULTIPART_STATE_PARAMETER, e.state);
@@ -174,8 +179,8 @@ public class MultipartContainerBlockEntity extends BlockEntity implements Multip
 		}
 
 		@Override
-		public MultipartContainerBlockEntity getContainer() {
-			return MultipartContainerBlockEntity.this; // TODO: is this bad?
+		public ContainerBlockEntity getContainer() {
+			return ContainerBlockEntity.this; // TODO: is this bad?
 		}
 
 		@Override

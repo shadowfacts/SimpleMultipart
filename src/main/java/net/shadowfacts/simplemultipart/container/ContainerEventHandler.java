@@ -7,6 +7,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.shadowfacts.simplemultipart.api.MultipartContainer;
 import net.shadowfacts.simplemultipart.util.MultipartHitResult;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
 import net.shadowfacts.simplemultipart.util.MultipartHelper;
@@ -14,10 +15,10 @@ import net.shadowfacts.simplemultipart.util.MultipartHelper;
 /**
  * @author shadowfacts
  */
-public class MultipartContainerEventHandler {
+public class ContainerEventHandler {
 
 	public static void register() {
-		PlayerInteractionEvent.ATTACK_BLOCK.register(MultipartContainerEventHandler::handleBlockAttack);
+		PlayerInteractionEvent.ATTACK_BLOCK.register(ContainerEventHandler::handleBlockAttack);
 	}
 
 	private static ActionResult handleBlockAttack(PlayerEntity player, World world, Hand hand, BlockPos pos, Direction direction) {
@@ -25,7 +26,7 @@ public class MultipartContainerEventHandler {
 			return ActionResult.PASS;
 		}
 
-		MultipartContainerBlockEntity container = (MultipartContainerBlockEntity)world.getBlockEntity(pos);
+		MultipartContainer container = (MultipartContainer)world.getBlockEntity(pos);
 		if (container == null) {
 			return ActionResult.FAILURE;
 		}
