@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"": { "model": "multipart_test:multipart/tickable_entity_test" },
+		"inventory": { "model": "multipart_test:multipart/tickable_entity_test" }
+	}
+}

@@ -1,6 +1,7 @@
 package net.shadowfacts.simplemultipart.container;
 
 import net.fabricmc.fabric.events.PlayerInteractionEvent;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;

@@ -71,7 +71,7 @@ public class ContainerBlock extends Block implements BlockEntityProvider, Render
 	}
 
 	@Override
-	public ContainerBlockEntity createBlockEntity(BlockView world) {
+	public AbstractContainerBlockEntity createBlockEntity(BlockView world) {
 		return new ContainerBlockEntity();
 	}
 }

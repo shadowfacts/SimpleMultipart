@@ -6,7 +6,6 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.ActionResult;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
 import net.shadowfacts.simplemultipart.api.MultipartContainer;
-import net.shadowfacts.simplemultipart.container.ContainerBlockEntity;
 import net.shadowfacts.simplemultipart.multipart.Multipart;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 import net.shadowfacts.simplemultipart.util.MultipartPlacementContext;

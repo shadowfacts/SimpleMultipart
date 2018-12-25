@@ -19,11 +19,13 @@ public class MultipartTestMod implements ModInitializer {
 	public static final SlabMultipart ironSlab = new SlabMultipart();
 	public static final SlabMultipart goldSlab = new SlabMultipart();
 	public static final EntityTestPart entityTest = new EntityTestPart();
+	public static final TickableEntityTestPart tickableEntityTest = new TickableEntityTestPart();
 
 	public static final ItemMultipart testItem = new ItemMultipart(testPart);
 	public static final ItemMultipart ironSlabItem = new ItemMultipart(ironSlab);
 	public static final ItemMultipart goldSlabItem  = new ItemMultipart(goldSlab);
 	public static final ItemMultipart entityTestItem = new ItemMultipart(entityTest);
+	public static final ItemMultipart tickableEntityTestItem = new ItemMultipart(tickableEntityTest);
 
 	@Override
 	public void onInitialize() {
@@ -31,6 +33,7 @@ public class MultipartTestMod implements ModInitializer {
 		registerPartAndItem("iron_slab", ironSlab, ironSlabItem);
 		registerPartAndItem("gold_slab", goldSlab, goldSlabItem);
 		registerPartAndItem("entity_test", entityTest, entityTestItem);
+		registerPartAndItem("tickable_entity_test", tickableEntityTest, tickableEntityTestItem);
 	}
 
 	private void registerPartAndItem(String name, Multipart part, Item item) {
