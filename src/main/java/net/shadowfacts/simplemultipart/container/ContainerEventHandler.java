@@ -37,7 +37,7 @@ public class ContainerEventHandler {
 			return ActionResult.FAILURE;
 		}
 
-		boolean success = container.breakPart(hit.view.getState());
+		boolean success = container.breakPart(hit.view);
 		return success ? ActionResult.SUCCESS : ActionResult.FAILURE;
 	}
 

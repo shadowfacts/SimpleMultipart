@@ -75,8 +75,12 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 	}
 
 	@Override
-	public void remove(MultipartState partState) {
-		parts.removeIf(e -> e.state == partState);
+	public void remove(MultipartView view) {
+		if (view.getContainer() != this) {
+			return;
+		}
+
+		parts.removeIf(e -> e.state == view.getState() && e.entity == view.getEntity());
 
 		if (parts.isEmpty()) {
 			world.setBlockState(pos, Blocks.AIR.getDefaultState());
@@ -86,8 +90,8 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 	}
 
 	@Override
-	public boolean breakPart(MultipartState partState) {
-		Optional<Entry> entry = parts.stream().filter(e -> e.state == partState).findFirst();
+	public boolean breakPart(MultipartView view) {
+		Optional<Entry> entry = parts.stream().filter(e -> e.state == view.getState() && e.entity == view.getEntity()).findFirst();
 		if (!entry.isPresent()) {
 			return false;
 		}
@@ -98,7 +102,7 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 			// TODO: don't drop if player is creative
 		}
 
-		remove(partState);
+		remove(view);
 
 		updateWorld();
 

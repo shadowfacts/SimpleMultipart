@@ -15,9 +15,9 @@ public interface MultipartContainer {
 
 	void insert(MultipartState state);
 
-	void remove(MultipartState state);
+	void remove(MultipartView view);
 
-	boolean breakPart(MultipartState state);
+	boolean breakPart(MultipartView view);
 
 	void schedulePartSave();
 
