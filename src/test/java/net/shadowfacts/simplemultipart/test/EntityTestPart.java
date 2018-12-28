@@ -35,16 +35,12 @@ public class EntityTestPart extends Multipart implements MultipartEntityProvider
 
 	@Override
 	public MultipartEntity createMultipartEntity(MultipartState state, MultipartContainer container) {
-		return new Entity(container);
+		return new Entity();
 	}
 
 	public static class Entity extends MultipartEntity {
-		public Entity(MultipartContainer container) {
-			super(container);
-		}
-
 		public BlockPos getPos() {
-			return ((AbstractContainerBlockEntity)container).getPos();
+			return ((AbstractContainerBlockEntity)view.getContainer()).getPos();
 		}
 	}
 

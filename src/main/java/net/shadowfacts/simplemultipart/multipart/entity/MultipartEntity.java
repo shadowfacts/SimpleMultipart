@@ -2,6 +2,7 @@ package net.shadowfacts.simplemultipart.multipart.entity;
 
 import net.minecraft.nbt.CompoundTag;
 import net.shadowfacts.simplemultipart.container.MultipartContainer;
+import net.shadowfacts.simplemultipart.multipart.MultipartView;
 
 /**
  * An entity associated with multiparts placed in the world. An instance of the part's entity exists for every in-world
@@ -17,20 +18,15 @@ import net.shadowfacts.simplemultipart.container.MultipartContainer;
 public abstract class MultipartEntity {
 
 	/**
-	 * The container holding this multipart entity.
+	 * The view of this multipart.
 	 */
-	// TODO: change this to a view?
-	public MultipartContainer container;
-
-	public MultipartEntity(MultipartContainer container) {
-		this.container = container;
-	}
+	public MultipartView view;
 
 	/**
 	 * Calling this indicates that something about this entity has changed that necessitates saving it to disk.
 	 */
 	protected void scheduleSave() {
-		container.schedulePartSave();
+		view.getContainer().schedulePartSave();
 	}
 
 	/**

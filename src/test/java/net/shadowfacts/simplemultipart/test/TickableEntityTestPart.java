@@ -34,15 +34,11 @@ public class TickableEntityTestPart extends Multipart implements MultipartEntity
 
 	@Override
 	public MultipartEntity createMultipartEntity(MultipartState state, MultipartContainer container) {
-		return new Entity(container);
+		return new Entity();
 	}
 
 	public static class Entity extends MultipartEntity implements Tickable {
 		public int timer = 0;
-
-		public Entity(MultipartContainer container) {
-			super(container);
-		}
 
 		@Override
 		public void tick() {

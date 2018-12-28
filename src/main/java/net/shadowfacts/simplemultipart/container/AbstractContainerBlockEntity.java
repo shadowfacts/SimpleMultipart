@@ -69,11 +69,13 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 			return;
 		}
 
-		MultipartEntity entity = null;
+
+		Entry e = new Entry(this, partState, null);
 		if (partState.getMultipart() instanceof MultipartEntityProvider) {
-			entity = ((MultipartEntityProvider)partState.getMultipart()).createMultipartEntity(partState, this);
+			e.entity = ((MultipartEntityProvider)partState.getMultipart()).createMultipartEntity(partState, this);
+			e.entity.view = e;
 		}
-		parts.add(new Entry(this, partState, entity));
+		parts.add(e);
 
 		updateWorld();
 	}
@@ -128,7 +130,7 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 			newContainer.parts = parts.stream()
 					.map(e -> new Entry(newContainer, e.state, e.entity))
 					.collect(Collectors.toSet());
-			newContainer.parts.stream().filter(e -> e.entity != null).forEach(e -> e.entity.container = newContainer);
+			newContainer.parts.stream().filter(e -> e.entity != null).forEach(e -> e.entity.view = e);
 		}
 
 		world.markDirty(pos, world.getBlockEntity(pos));
@@ -163,12 +165,14 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 		for (Tag tag : list) {
 			CompoundTag compound = (CompoundTag)tag;
 			MultipartState state = MultipartHelper.deserializeMultipartState(compound.getCompound("part"));
-			MultipartEntity entity = null;
+
+			Entry e = new Entry(this, state, null);
 			if (state.getMultipart() instanceof MultipartEntityProvider && compound.containsKey("entity", NbtType.COMPOUND)) {
-				entity = ((MultipartEntityProvider)state.getMultipart()).createMultipartEntity(state, this);
-				entity.fromTag(compound.getCompound("entity"));
+				e.entity = ((MultipartEntityProvider)state.getMultipart()).createMultipartEntity(state, this);
+				e.entity.view = e;
+				e.entity.fromTag(compound.getCompound("entity"));
 			}
-			parts.add(new Entry(this, state, entity));
+			parts.add(e);
 		}
 	}
 
