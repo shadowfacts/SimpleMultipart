@@ -27,7 +27,7 @@ public class EntityTestPart extends Multipart implements MultipartEntityProvider
 
 	@Override
 	@Deprecated
-	public boolean activate(MultipartState state, MultipartView view, PlayerEntity player, Hand hand) {
+	public boolean activate(MultipartView view, PlayerEntity player, Hand hand) {
 		BlockPos pos = ((Entity)view.getEntity()).getPos();
 		player.addChatMessage(new StringTextComponent("Clicked: " + pos), false);
 		return true;

@@ -26,7 +26,7 @@ public class TickableEntityTestPart extends Multipart implements MultipartEntity
 
 	@Override
 	@Deprecated
-	public boolean activate(MultipartState state, MultipartView view, PlayerEntity player, Hand hand) {
+	public boolean activate(MultipartView view, PlayerEntity player, Hand hand) {
 		int timer = ((Entity)view.getEntity()).timer;
 		player.addChatMessage(new StringTextComponent("Timer: " + timer), false);
 		return true;

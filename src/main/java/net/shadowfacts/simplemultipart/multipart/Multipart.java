@@ -96,7 +96,7 @@ public abstract class Multipart {
 	public abstract VoxelShape getBoundingShape(MultipartState state, /*@Nullable*/ MultipartView view);
 
 	/**
-	 * @return The loot table ID used for to determine the drops by the default {@link Multipart#getDroppedStacks(MultipartState, MultipartView, LootContext.Builder)} implementation.
+	 * @return The loot table ID used for to determine the drops by the default {@link Multipart#getDroppedStacks(MultipartView, LootContext.Builder)} implementation.
 	 */
 	public Identifier getDropTableId() {
 		if (dropTableId == null) {
@@ -111,18 +111,17 @@ public abstract class Multipart {
 	 *
 	 * Can be overridden, should only be called via {@link MultipartState#getDroppedStacks)}
 	 *
-	 * @param state The state of this part.
 	 * @param view The view of this part.
 	 * @param builder The {@link LootContext} builder, used by the default loot table-based implementation.
 	 * @return The list of stacks to drop.
 	 */
 	@Deprecated
-	public List<ItemStack> getDroppedStacks(MultipartState state, MultipartView view, LootContext.Builder builder) {
+	public List<ItemStack> getDroppedStacks(MultipartView view, LootContext.Builder builder) {
 		Identifier dropTableId = getDropTableId();
 		if (dropTableId == LootTables.EMPTY) {
 			return ImmutableList.of();
 		} else {
-			LootContext context = builder.put(SimpleMultipart.MULTIPART_STATE_PARAMETER, state).build(SimpleMultipart.MULTIPART_LOOT_CONTEXT);
+			LootContext context = builder.put(SimpleMultipart.MULTIPART_STATE_PARAMETER, view.getState()).build(SimpleMultipart.MULTIPART_LOOT_CONTEXT);
 			ServerWorld world = context.getWorld();
 			LootSupplier supplier = world.getServer().getLootManager().getSupplier(dropTableId);
 			return supplier.getDrops(context);
@@ -134,14 +133,13 @@ public abstract class Multipart {
 	 *
 	 * Can be overridden, should only be called via {@link MultipartState#activate}
 	 *
-	 * @param state The state of this part.
 	 * @param view The view of this part.
 	 * @param player The player that activated this part.
 	 * @param hand The hand with which they performed the action.
 	 * @return If the activation was successful. {@code true} will trigger the hand-swinging animation.
 	 */
 	@Deprecated
-	public boolean activate(MultipartState state, MultipartView view, PlayerEntity player, Hand hand) {
+	public boolean activate(MultipartView view, PlayerEntity player, Hand hand) {
 		return false;
 	}
 

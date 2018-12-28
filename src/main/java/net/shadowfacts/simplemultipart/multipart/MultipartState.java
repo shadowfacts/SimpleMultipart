@@ -41,19 +41,19 @@ public class MultipartState extends AbstractPropertyContainer<Multipart, Multipa
 	}
 
 	/**
-	 * @see Multipart#getDroppedStacks(MultipartState, MultipartView, LootContext.Builder)
+	 * @see Multipart#getDroppedStacks(MultipartView, LootContext.Builder)
 	 */
 	public List<ItemStack> getDroppedStacks(MultipartView view, LootContext.Builder builder) {
 		//noinspection deprecated
-		return owner.getDroppedStacks(this, view, builder);
+		return owner.getDroppedStacks(view, builder);
 	}
 
 	/**
-	 * @see Multipart#activate(MultipartState, MultipartView, PlayerEntity, Hand)
+	 * @see Multipart#activate(MultipartView, PlayerEntity, Hand)
 	 */
 	public boolean activate(MultipartView view, PlayerEntity player, Hand hand) {
 		//noinspection deprecated
-		return owner.activate(this, view, player, hand);
+		return owner.activate(view, player, hand);
 	}
 
 }
