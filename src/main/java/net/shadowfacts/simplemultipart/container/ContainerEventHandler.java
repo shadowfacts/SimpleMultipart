@@ -23,7 +23,12 @@ public class ContainerEventHandler {
 	}
 
 	private static ActionResult handleBlockAttack(PlayerEntity player, World world, Hand hand, BlockPos pos, Direction direction) {
-		if (world.isClient || world.getBlockState(pos).getBlock() != SimpleMultipart.containerBlock) {
+		if (world.isClient) {
+			return ActionResult.PASS;
+		}
+
+		Block block = world.getBlockState(pos).getBlock();
+		if (block != SimpleMultipart.containerBlock && block != SimpleMultipart.tickableContainerBlock) {
 			return ActionResult.PASS;
 		}
 

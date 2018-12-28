@@ -5,11 +5,11 @@ import net.minecraft.world.BlockView;
 /**
  * @author shadowfacts
  */
-public class ContainerBlock extends AbstractContainerBlock {
+public class TickableContainerBlock extends AbstractContainerBlock {
 
 	@Override
 	public AbstractContainerBlockEntity createBlockEntity(BlockView world) {
-		return new ContainerBlockEntity();
+		return new TickableContainerBlockEntity();
 	}
 
 }

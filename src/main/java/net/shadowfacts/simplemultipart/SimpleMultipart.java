@@ -31,12 +31,14 @@ public class SimpleMultipart implements ModInitializer {
 	public static final LootContextType MULTIPART_LOOT_CONTEXT = createMultipartLootContextType();
 
 	public static final ContainerBlock containerBlock = new ContainerBlock();
+	public static final TickableContainerBlock tickableContainerBlock = new TickableContainerBlock();
 	public static final BlockEntityType<ContainerBlockEntity> containerBlockEntity = createBlockEntityType("container", ContainerBlockEntity::new);
 	public static final BlockEntityType<TickableContainerBlockEntity> tickableContainerBlockEntity = createBlockEntityType("tickable_container", TickableContainerBlockEntity::new);
 
 	@Override
 	public void onInitialize() {
 		Registry.register(Registry.BLOCK, new Identifier(MODID, "container"), containerBlock);
+		Registry.register(Registry.BLOCK, new Identifier(MODID, "tickable_container"), tickableContainerBlock);
 
 		ContainerEventHandler.register();
 	}

@@ -28,6 +28,7 @@ public abstract class MixinModelLoader {
 	@Inject(method = "<init>", at = @At("RETURN"))
 	public void addMultipartModel(ResourceManager manager, SpriteAtlasTexture texture, CallbackInfo info) {
 		bakedModels.put(new ModelIdentifier("simplemultipart:container#"), new MultipartContainerBakedModel());
+		bakedModels.put(new ModelIdentifier("simplemultipart:tickable_container#"), new MultipartContainerBakedModel());
 	}
 
 }

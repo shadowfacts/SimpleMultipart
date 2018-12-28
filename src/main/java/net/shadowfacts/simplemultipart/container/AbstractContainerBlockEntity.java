@@ -118,11 +118,13 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 		boolean hasTickableParts = parts.stream().anyMatch(e -> e.getEntity() != null && e.getEntity() instanceof Tickable);
 		boolean currentlyTickable = this instanceof Tickable;
 		if (hasTickableParts != currentlyTickable) {
-			AbstractContainerBlockEntity newContainer = hasTickableParts ? new TickableContainerBlockEntity() : new ContainerBlockEntity();
-			world.setBlockEntity(pos, newContainer);
+			Block newBlock = hasTickableParts ? SimpleMultipart.tickableContainerBlock : SimpleMultipart.containerBlock;
+			world.setBlockState(pos, newBlock.getDefaultState(), 3);
+			AbstractContainerBlockEntity newContainer = (AbstractContainerBlockEntity)world.getBlockEntity(pos);
 			newContainer.parts = parts.stream()
 					.map(e -> new Entry(newContainer, e.state, e.entity))
 					.collect(Collectors.toSet());
+			newContainer.parts.stream().filter(e -> e.entity != null).forEach(e -> e.entity.container = newContainer);
 		}
 
 		world.markDirty(pos, world.getBlockEntity(pos));
