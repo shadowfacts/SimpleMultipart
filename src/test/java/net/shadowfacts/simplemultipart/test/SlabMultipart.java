@@ -44,26 +44,11 @@ public class SlabMultipart extends Multipart {
 			half = context.getHitY() >= 0.5f ? BlockHalf.UPPER : BlockHalf.LOWER;
 		}
 
-//		if (hitSide == Direction.DOWN || (0.5f < context.getHitY() && context.getHitY() < 1)) {
-//			half = BlockHalf.UPPER;
-//		} else {
-//			half = BlockHalf.LOWER;
-//		}
-
-//		switch (hitSide) {
-//			case UP:
-//				half = BlockHalf.LOWER;
-//				break;
-//			case DOWN:
-//				half = BlockHalf.UPPER;
-//				break;
-//			default:
-//				half = context.getHitY() > 0.5f ? BlockHalf.UPPER : BlockHalf.LOWER;
-//		}
 		return getDefaultState().with(HALF, half);
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getBoundingShape(MultipartState state, MultipartView view) {
 		return state.get(HALF) == BlockHalf.UPPER ? UPPER_BOX : LOWER_BOX;
 	}

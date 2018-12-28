@@ -82,21 +82,6 @@ public abstract class Multipart {
 	}
 
 	/**
-	 * Can be used to provide additional information to custom {@link net.shadowfacts.simplemultipart.client.MultipartBakedModel}.
-	 * The returned state will be passed to {@link net.shadowfacts.simplemultipart.client.MultipartBakedModel#getMultipartQuads(MultipartView, Direction, Random)}.
-	 *
-	 * Can be overridden, should only be called via {@link MultipartState#getStateForRendering}
-	 *
-	 * @param state The normal state of this multipart.
-	 * @param view The view of this multipart.
-	 * @return The state that will be used for rendering.
-	 */
-	@Deprecated
-	public MultipartState getStateForRendering(MultipartState state, MultipartView view) {
-		return state;
-	}
-
-	/**
 	 * Retrieves the bounding shape this multipart should have.
 	 *
 	 * Can be overridden, should only be called via {@link MultipartState#getBoundingShape}

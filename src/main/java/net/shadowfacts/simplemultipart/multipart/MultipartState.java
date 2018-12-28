@@ -33,14 +33,6 @@ public class MultipartState extends AbstractPropertyContainer<Multipart, Multipa
 	}
 
 	/**
-	 * @see Multipart#getStateForRendering(MultipartState, MultipartView)
-	 */
-	public MultipartState getStateForRendering(MultipartView view) {
-		//noinspection deprecation
-		return owner.getStateForRendering(this, view);
-	}
-
-	/**
 	 * @see Multipart#getBoundingShape(MultipartState, MultipartView)
 	 */
 	public VoxelShape getBoundingShape(/*@Nullable*/ MultipartView view) {
