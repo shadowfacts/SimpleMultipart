@@ -23,6 +23,11 @@ public interface MultipartContainer {
 	Set<MultipartView> getParts();
 
 	/**
+	 * @return If this container has any parts in it.
+	 */
+	boolean hasParts();
+
+	/**
 	 * Determines whether the given multipart state can be inserted into this container.
 	 * Checks that the bounding box of the new part does not intersect with any existing ones.
 	 *

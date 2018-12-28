@@ -1,10 +1,12 @@
 package net.shadowfacts.simplemultipart.item;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.ActionResult;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
+import net.shadowfacts.simplemultipart.container.AbstractContainerBlockEntity;
 import net.shadowfacts.simplemultipart.container.MultipartContainer;
 import net.shadowfacts.simplemultipart.multipart.Multipart;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
@@ -52,8 +54,15 @@ public class ItemMultipart extends Item {
 		// Otherwise, get or create a new container and try inserting into that
 		ItemUsageContext offsetContext = new ItemUsageContext(context.getPlayer(), context.getItemStack(), context.getPos().offset(context.getFacing()), context.getFacing(), context.getHitX(), context.getHitY(), context.getHitZ());
 		MultipartContainer offsetContainer = getOrCreateContainer(offsetContext);
-		if (offsetContainer != null && tryPlace(new MultipartPlacementContext(offsetContainer, offsetContext))) {
-			return ActionResult.SUCCESS;
+		if (offsetContainer != null) {
+			if (tryPlace(new MultipartPlacementContext(offsetContainer, offsetContext))) {
+				return ActionResult.SUCCESS;
+			} else {
+				// if the a new container was created, and no part was inserted, remove the empty container
+				if (!offsetContainer.hasParts()) {
+					context.getWorld().setBlockState(offsetContext.getPos(), Blocks.AIR.getDefaultState());
+				}
+			}
 		}
 
 		return ActionResult.FAILURE;

@@ -46,6 +46,11 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 	}
 
 	@Override
+	public boolean hasParts() {
+		return !parts.isEmpty();
+	}
+
+	@Override
 	public boolean canInsert(MultipartState partState) {
 		VoxelShape newShape = partState.getBoundingShape(null);
 		for (Entry e : parts) {
