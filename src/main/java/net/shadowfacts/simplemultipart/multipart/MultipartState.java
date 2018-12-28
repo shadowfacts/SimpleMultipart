@@ -8,7 +8,6 @@ import net.minecraft.state.property.Property;
 import net.minecraft.util.Hand;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.loot.context.LootContext;
-import net.shadowfacts.simplemultipart.api.MultipartView;
 
 import java.util.List;
 

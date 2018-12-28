@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.shadowfacts.simplemultipart.api.MultipartContainer;
+import net.shadowfacts.simplemultipart.container.MultipartContainer;
 
 /**
  * @author shadowfacts

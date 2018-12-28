@@ -11,11 +11,10 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.ExtendedBlockView;
 import net.minecraft.world.World;
-import net.shadowfacts.simplemultipart.api.MultipartContainer;
 import net.shadowfacts.simplemultipart.client.util.RenderStateProvider;
 import net.shadowfacts.simplemultipart.util.MultipartHelper;
 import net.shadowfacts.simplemultipart.util.MultipartHitResult;
-import net.shadowfacts.simplemultipart.api.MultipartView;
+import net.shadowfacts.simplemultipart.multipart.MultipartView;
 
 import java.util.Set;
 

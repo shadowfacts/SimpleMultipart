@@ -4,7 +4,7 @@ import net.minecraft.util.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import net.shadowfacts.simplemultipart.api.MultipartView;
+import net.shadowfacts.simplemultipart.multipart.MultipartView;
 
 /**
  * @author shadowfacts

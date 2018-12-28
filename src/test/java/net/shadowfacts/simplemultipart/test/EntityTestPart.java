@@ -6,13 +6,13 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
-import net.shadowfacts.simplemultipart.api.MultipartContainer;
+import net.shadowfacts.simplemultipart.container.MultipartContainer;
 import net.shadowfacts.simplemultipart.container.AbstractContainerBlockEntity;
 import net.shadowfacts.simplemultipart.multipart.Multipart;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 import net.shadowfacts.simplemultipart.multipart.entity.MultipartEntity;
 import net.shadowfacts.simplemultipart.multipart.entity.MultipartEntityProvider;
-import net.shadowfacts.simplemultipart.api.MultipartView;
+import net.shadowfacts.simplemultipart.multipart.MultipartView;
 
 /**
  * @author shadowfacts

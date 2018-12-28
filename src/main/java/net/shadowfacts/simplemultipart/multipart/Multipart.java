@@ -13,7 +13,6 @@ import net.minecraft.world.loot.LootTables;
 import net.minecraft.world.loot.context.LootContext;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
 import net.shadowfacts.simplemultipart.util.MultipartPlacementContext;
-import net.shadowfacts.simplemultipart.api.MultipartView;
 
 import java.util.List;
 

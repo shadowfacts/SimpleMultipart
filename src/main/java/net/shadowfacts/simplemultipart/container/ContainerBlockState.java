@@ -1,7 +1,7 @@
 package net.shadowfacts.simplemultipart.container;
 
 import net.minecraft.block.BlockState;
-import net.shadowfacts.simplemultipart.api.MultipartView;
+import net.shadowfacts.simplemultipart.multipart.MultipartView;
 
 import java.util.Set;
 

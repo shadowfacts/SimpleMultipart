@@ -10,7 +10,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.shadowfacts.simplemultipart.multipart.Multipart;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 import net.shadowfacts.simplemultipart.util.MultipartPlacementContext;
-import net.shadowfacts.simplemultipart.api.MultipartView;
+import net.shadowfacts.simplemultipart.multipart.MultipartView;
 
 /**
  * @author shadowfacts

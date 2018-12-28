@@ -19,12 +19,11 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.loot.context.LootContext;
 import net.minecraft.world.loot.context.Parameters;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
-import net.shadowfacts.simplemultipart.api.MultipartContainer;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 import net.shadowfacts.simplemultipart.multipart.entity.MultipartEntity;
 import net.shadowfacts.simplemultipart.multipart.entity.MultipartEntityProvider;
 import net.shadowfacts.simplemultipart.util.MultipartHelper;
-import net.shadowfacts.simplemultipart.api.MultipartView;
+import net.shadowfacts.simplemultipart.multipart.MultipartView;
 import net.shadowfacts.simplemultipart.util.ShapeUtils;
 
 import java.util.*;
@@ -196,8 +195,8 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 
 	public static class Entry implements MultipartView {
 		public final MultipartContainer container;
-		public final MultipartState state;
-		public final MultipartEntity entity;
+		public MultipartState state;
+		public MultipartEntity entity;
 
 		private Entry(MultipartContainer container, MultipartState state, MultipartEntity entity) {
 			this.container = container;
@@ -216,8 +215,23 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 		}
 
 		@Override
+		public void setState(MultipartState state) {
+			this.state = state;
+		}
+
+		@Override
 		public MultipartEntity getEntity() {
 			return entity;
+		}
+
+		@Override
+		public void setEntity(MultipartEntity entity) {
+			this.entity = entity;
+		}
+
+		@Override
+		public String toString() {
+			return "Entry{" + state + "}";
 		}
 	}
 

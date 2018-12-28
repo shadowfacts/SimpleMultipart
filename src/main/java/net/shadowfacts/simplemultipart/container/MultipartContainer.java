@@ -1,5 +1,6 @@
-package net.shadowfacts.simplemultipart.api;
+package net.shadowfacts.simplemultipart.container;
 
+import net.shadowfacts.simplemultipart.multipart.MultipartView;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 
 import java.util.Set;
