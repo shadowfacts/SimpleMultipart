@@ -107,16 +107,6 @@ public class MultipartModelProvider implements ModelProvider {
 		return model;
 	}
 
-//	private StateFactory<Block, BlockState> getStateFactory(class_816 multipartUnbakedModel) {
-//		try {
-//			Field f = class_816.class.getDeclaredField("field_4329");
-//			f.setAccessible(true);
-//			return (StateFactory<Block, BlockState>)f.get(multipartUnbakedModel);
-//		} catch (ReflectiveOperationException e) {
-//			throw new RuntimeException(e);
-//		}
-//	}
-
 	private ModelVariantMap loadPartVariantMap(MultipartFakeBlock blockAdapter, Identifier partStateDefId) throws IOException {
 		Resource resource = null;
 		Reader reader = null;

@@ -11,13 +11,19 @@ import net.shadowfacts.simplemultipart.multipart.MultipartState;
 import net.shadowfacts.simplemultipart.util.MultipartPlacementContext;
 
 /**
+ * An {@link Item} implementation that handles placing multiparts.
+ *
+ * Analogous to {@link net.minecraft.item.block.BlockItem}.
+ *
  * @author shadowfacts
+ * @since 0.1.0
  */
 public class ItemMultipart extends Item {
 
 	protected Multipart part;
 
 	public ItemMultipart(Multipart part) {
+		// TODO: expose settings object?
 		super(new Settings());
 		this.part = part;
 	}
@@ -27,6 +33,15 @@ public class ItemMultipart extends Item {
 		return tryPlace(context);
 	}
 
+	/**
+	 * Attempts to place this item's multipart in the given context.
+	 *
+	 * If the player clicked an existing multipart container, it will attempt to insert into that one, falling back on
+	 * creating a new container.
+	 *
+	 * @param context The item usage context.
+	 * @return The result of the placement.
+	 */
 	protected ActionResult tryPlace(ItemUsageContext context) {
 		// If a multipart inside an existing container was clicked, try inserting into that
 		MultipartContainer hitContainer = getContainer(context);
@@ -65,6 +80,12 @@ public class ItemMultipart extends Item {
 		return container;
 	}
 
+	/**
+	 * Attempts to insert this item's multipart into the container specified by the given context.
+	 *
+	 * @param context The multipart placement context.
+	 * @return If the placement succeeded.
+	 */
 	protected boolean tryPlace(MultipartPlacementContext context) {
 		MultipartState placementState = part.getPlacementState(context);
 

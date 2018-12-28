@@ -8,7 +8,12 @@ import net.minecraft.util.math.Direction;
 import net.shadowfacts.simplemultipart.container.MultipartContainer;
 
 /**
+ * Contains information about the context in which a multipart is being placed into the world.
+ *
+ * Analogous to {@link net.minecraft.item.ItemPlacementContext}.
+ *
  * @author shadowfacts
+ * @since 0.1.0
  */
 public class MultipartPlacementContext extends ItemUsageContext {
 
@@ -23,6 +28,9 @@ public class MultipartPlacementContext extends ItemUsageContext {
 		this(container, context.getPlayer(), context.getItemStack(), context.getPos(), context.getFacing(), context.getHitX(), context.getHitY(), context.getHitZ());
 	}
 
+	/**
+	 * @return The container that this multipart will be inserted into.
+	 */
 	public MultipartContainer getContainer() {
 		return container;
 	}

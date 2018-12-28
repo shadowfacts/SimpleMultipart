@@ -1,16 +1,26 @@
 package net.shadowfacts.simplemultipart.util;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import net.shadowfacts.simplemultipart.container.MultipartContainer;
 import net.shadowfacts.simplemultipart.multipart.MultipartView;
 
 /**
+ * A raytrace result for a multipart.
+ *
  * @author shadowfacts
+ * @since 0.1.0
+ * @see MultipartHelper#rayTrace(MultipartContainer, World, BlockPos, PlayerEntity)
  */
 public class MultipartHitResult extends HitResult {
 
+	/**
+	 * The view of the hit multipart.
+	 */
 	public MultipartView view;
 
 	public MultipartHitResult(Vec3d pos, Direction side, BlockPos blockPos, MultipartView view) {
