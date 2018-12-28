@@ -72,4 +72,13 @@ public abstract class AbstractContainerBlock extends Block implements BlockEntit
 
 	@Override
 	public abstract AbstractContainerBlockEntity createBlockEntity(BlockView world);
+
+	@Override
+	@Deprecated
+	public void onBlockRemoved(BlockState blockState_1, World world, BlockPos pos, BlockState blockState_2, boolean boolean_1) {
+		super.onBlockRemoved(blockState_1, world, pos, blockState_2, boolean_1);
+		if (blockState_1 != blockState_2) {
+			world.removeBlockEntity(pos);
+		}
+	}
 }
