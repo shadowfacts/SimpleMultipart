@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
 import net.shadowfacts.simplemultipart.container.MultipartContainer;
@@ -37,7 +38,7 @@ public class MultipartHelper {
 	 * @param player The player performing the ray trace.
 	 * @return A hit result for the hit multipart. {@ode null} if not part was hit.
 	 */
-	public static MultipartHitResult rayTrace(MultipartContainer container, World world, BlockPos pos, PlayerEntity player) {
+	public static MultipartHitResult rayTrace(MultipartContainer container, BlockView world, BlockPos pos, PlayerEntity player) {
 		// copied from BoatItem::use
 		float var6 = MathHelper.lerp(1.0F, player.prevPitch, player.pitch);
 		float var7 = MathHelper.lerp(1.0F, player.prevYaw, player.yaw);
@@ -67,7 +68,7 @@ public class MultipartHelper {
 	 * @param end The end position for the ray.
 	 * @return A hit result for the hit multipart. {@code null} if no part was hit.
 	 */
-	public static MultipartHitResult rayTrace(MultipartContainer container, World world, BlockPos pos, Vec3d start, Vec3d end) {
+	public static MultipartHitResult rayTrace(MultipartContainer container, BlockView world, BlockPos pos, Vec3d start, Vec3d end) {
 		return container.getParts().stream()
 				.map(view -> {
 					VoxelShape shape = view.getState().getBoundingShape(view);

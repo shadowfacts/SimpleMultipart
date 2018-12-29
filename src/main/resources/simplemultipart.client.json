@@ -5,7 +5,8 @@
   "mixins": [
     "MixinBlockRenderManager",
     "MixinDebugHud",
-    "MixinModelLoader"
+    "MixinModelLoader",
+    "MixinWorldRenderer"
   ],
   "injectors": {
     "defaultRequire": 1
