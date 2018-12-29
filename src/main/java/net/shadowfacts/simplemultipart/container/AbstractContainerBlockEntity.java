@@ -15,6 +15,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.loot.context.LootContext;
 import net.minecraft.world.loot.context.Parameters;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
 public abstract class AbstractContainerBlockEntity extends BlockEntity implements MultipartContainer, ClientSerializable {
 
 	protected Set<Entry> parts = new HashSet<>();
+	protected Map<Direction, Entry> sidePartCache = new WeakHashMap<>();
 
 	public AbstractContainerBlockEntity(BlockEntityType<?> type) {
 		super(type);
@@ -48,6 +50,36 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 	@Override
 	public boolean hasParts() {
 		return !parts.isEmpty();
+	}
+
+	@Override
+	public MultipartView getPart(Direction side) {
+		Entry existing = sidePartCache.get(side);
+		if (existing != null) {
+			return existing;
+		}
+
+		Optional<Entry> e = parts.stream()
+				.min((a, b) -> {
+					VoxelShape aShape = a.getState().getBoundingShape(a);
+					VoxelShape bShape = b.getState().getBoundingShape(b);
+					double aCoord = side.getDirection() == Direction.AxisDirection.POSITIVE ? aShape.getMaximum(side.getAxis()) : aShape.getMinimum(side.getAxis());
+					double bCoord = side.getDirection() == Direction.AxisDirection.POSITIVE ? bShape.getMaximum(side.getAxis()) : bShape.getMinimum(side.getAxis());
+					return Double.compare(bCoord, aCoord);
+				});
+
+		if (!e.isPresent()) {
+			return null;
+		}
+
+		sidePartCache.put(side, e.get());
+
+		return e.get();
+	}
+
+	@Override
+	public void invalidateSidePartCache() {
+		sidePartCache.clear();
 	}
 
 	@Override
@@ -77,6 +109,7 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 		}
 		parts.add(e);
 
+		invalidateSidePartCache();
 		updateWorld();
 	}
 
@@ -91,6 +124,7 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 		if (parts.isEmpty()) {
 			world.setBlockState(pos, Blocks.AIR.getDefaultState());
 		} else {
+			invalidateSidePartCache();
 			updateWorld();
 		}
 	}
@@ -203,18 +237,18 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 	}
 
 	public static class Entry implements MultipartView {
-		public final MultipartContainer container;
+		public final AbstractContainerBlockEntity container;
 		public MultipartState state;
 		public MultipartEntity entity;
 
-		private Entry(MultipartContainer container, MultipartState state, MultipartEntity entity) {
+		private Entry(AbstractContainerBlockEntity container, MultipartState state, MultipartEntity entity) {
 			this.container = container;
 			this.state = state;
 			this.entity = entity;
 		}
 
 		@Override
-		public MultipartContainer getContainer() {
+		public AbstractContainerBlockEntity getContainer() {
 			return container;
 		}
 
@@ -226,6 +260,7 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 		@Override
 		public void setState(MultipartState state) {
 			this.state = state;
+			container.invalidateSidePartCache();
 		}
 
 		@Override
@@ -236,6 +271,7 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 		@Override
 		public void setEntity(MultipartEntity entity) {
 			this.entity = entity;
+			container.invalidateSidePartCache();
 		}
 
 		@Override

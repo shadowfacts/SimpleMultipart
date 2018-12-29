@@ -1,5 +1,6 @@
 package net.shadowfacts.simplemultipart.container;
 
+import net.minecraft.util.math.Direction;
 import net.shadowfacts.simplemultipart.multipart.MultipartView;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 
@@ -26,6 +27,26 @@ public interface MultipartContainer {
 	 * @return If this container has any parts in it.
 	 */
 	boolean hasParts();
+
+	/**
+	 * Gets the part on the given side.
+	 *
+	 * Will return the part with the greatest/least min/max coordinate based on the direction's axis.
+	 * For example, getting the part on the {@code NORTH} side will return the part with the smallest minimum Z coordinate.
+	 * If multiple parts have the same min/max coordinate, which one will be returned is undefined.
+	 *
+	 * @param side The side to determine the part for.
+	 * @return The part on the given side.
+	 */
+	MultipartView getPart(Direction side);
+
+	/**
+	 * Containers store a cache of which part is on which side, calculated using the bounding box.
+	 *
+	 * If anything changes in your part that changes its bounding shape, this method should be called.
+	 * The container {@code insert}, {@code breakPart}, and {@code remove} methods automatically call this.
+	 */
+	void invalidateSidePartCache();
 
 	/**
 	 * Determines whether the given multipart state can be inserted into this container.
