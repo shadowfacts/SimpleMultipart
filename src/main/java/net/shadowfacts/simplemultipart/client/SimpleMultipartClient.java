@@ -10,8 +10,8 @@ public class SimpleMultipartClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		ModelLoadingRegistryImpl.INSTANCE.registerAppender(MultipartModelProvider::registerMultipartModels);
-		ModelLoadingRegistryImpl.INSTANCE.registerProvider(resourceManager -> new MultipartModelProvider());
+		ModelLoadingRegistryImpl.INSTANCE.registerAppender(MultipartVariantProvider::registerMultipartModels);
+		ModelLoadingRegistryImpl.INSTANCE.registerVariantProvider(MultipartVariantProvider::new);
 	}
 
 }

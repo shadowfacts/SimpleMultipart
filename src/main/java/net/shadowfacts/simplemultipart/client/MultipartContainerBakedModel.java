@@ -75,7 +75,7 @@ public class MultipartContainerBakedModel implements BakedModel {
 	}
 
 	@Override
-	public ModelTransformation getTransformations() {
+	public ModelTransformation getTransformation() {
 		return ModelTransformation.ORIGIN;
 	}
 

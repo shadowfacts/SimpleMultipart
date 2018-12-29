@@ -1,10 +1,10 @@
 package net.shadowfacts.simplemultipart.client;
 
-import net.fabricmc.fabric.api.client.model.ModelProvider;
+import net.fabricmc.fabric.api.client.model.ModelProviderContext;
 import net.fabricmc.fabric.api.client.model.ModelProviderException;
-import net.minecraft.class_816;
-import net.minecraft.client.MinecraftClient;
+import net.fabricmc.fabric.api.client.model.ModelVariantProvider;
 import net.minecraft.client.render.block.BlockModels;
+import net.minecraft.client.render.model.MultipartUnbakedModel;
 import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.render.model.json.ModelVariantMap;
 import net.minecraft.client.render.model.json.WeightedUnbakedModel;
@@ -29,10 +29,11 @@ import java.util.function.Consumer;
 /**
  * @author shadowfacts
  */
-public class MultipartModelProvider implements ModelProvider {
+public class MultipartVariantProvider implements ModelVariantProvider  {
 
 	private static final Set<ModelIdentifier> multipartModels = new HashSet<>();
 
+	private final ResourceManager resourceManager;
 	private final Map<ModelIdentifier, UnbakedModel> unbakedModels = new HashMap<>();
 
 	static void registerMultipartModels(ResourceManager resourceManager, Consumer<ModelIdentifier> adder) {
@@ -50,22 +51,20 @@ public class MultipartModelProvider implements ModelProvider {
 		}
 	}
 
+	public MultipartVariantProvider(ResourceManager resourceManager) {
+		this.resourceManager = resourceManager;
+	}
+
 	@Override
-	public UnbakedModel load(Identifier id, Context context) throws ModelProviderException {
-		if (!(id instanceof ModelIdentifier)) {
-			return null;
-		}
-		ModelIdentifier modelId = (ModelIdentifier)id;
-
-
-		if (!multipartModels.contains(modelId)) {
+	public UnbakedModel loadModelVariant(ModelIdentifier id, ModelProviderContext context) throws ModelProviderException {
+		if (!multipartModels.contains(id)) {
 			return null;
 		}
 
 		try {
-			return getOrLoadPartModel(modelId);
+			return getOrLoadPartModel(id);
 		} catch (IOException e) {
-			throw new ModelProviderException("Exception encountered while loading model " + id, e);
+			throw new ModelProviderException("Exception encountered while loading multipart model " + id, e);
 		}
 	}
 
@@ -87,14 +86,14 @@ public class MultipartModelProvider implements ModelProvider {
 
 		ModelVariantMap variantMap = loadPartVariantMap(blockAdapter, partStateDefId);
 
-		if (variantMap.method_3422()) {
-			class_816 multipartUnbakedModel = variantMap.method_3421();
+		if (variantMap.hasMultipartModel()) {
+			MultipartUnbakedModel multipartUnbakedModel = variantMap.getMultipartMdoel();
 			part.getStateFactory().getStates().forEach(state -> {
 				ModelIdentifier stateModelId = new ModelIdentifier(partId, BlockModels.propertyMapToString(state.getEntries()));
 				unbakedModels.put(stateModelId, multipartUnbakedModel);
 			});
 		} else {
-			Map<String, WeightedUnbakedModel> variants = variantMap.method_3423();
+			Map<String, WeightedUnbakedModel> variants = variantMap.getVariantMap();
 			variants.forEach((variant, model) -> {
 				unbakedModels.put(new ModelIdentifier(partId, variant), model);
 			});
@@ -111,12 +110,12 @@ public class MultipartModelProvider implements ModelProvider {
 		Resource resource = null;
 		Reader reader = null;
 		try {
-			resource = MinecraftClient.getInstance().getResourceManager().getResource(partStateDefId);
+			resource = resourceManager.getResource(partStateDefId);
 			reader = new InputStreamReader(resource.getInputStream());
 
-			ModelVariantMap.class_791 context = new ModelVariantMap.class_791();
-			context.method_3426(blockAdapter.getStateFactory());
-			return ModelVariantMap.method_3424(context, reader);
+			ModelVariantMap.DeserializationContext context = new ModelVariantMap.DeserializationContext();
+			context.setStateFactory(blockAdapter.getStateFactory());
+			return ModelVariantMap.deserialize(context, reader);
 		} finally {
 			IOUtils.closeQuietly(reader);
 			IOUtils.closeQuietly(resource);

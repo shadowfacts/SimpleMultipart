@@ -1,5 +1,5 @@
 {
-	"parent": "multipart_test:multipart/slab/upper",
+	"parent": "multipart_test:multipart/slab/bottom",
 	"textures": {
 		"texture": "block/iron_block"
 	}

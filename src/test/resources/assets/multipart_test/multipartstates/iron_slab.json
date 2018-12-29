@@ -1,7 +1,7 @@
 {
 	"variants": {
-		"half=upper": { "model": "multipart_test:multipart/slab/iron/upper" },
-		"half=lower": { "model": "multipart_test:multipart/slab/iron/lower" },
-		"inventory": { "model": "multipart_test:multipart/slab/iron/lower" }
+		"half=top": { "model": "multipart_test:multipart/slab/iron/top" },
+		"half=bottom": { "model": "multipart_test:multipart/slab/iron/bottom" },
+		"inventory": { "model": "multipart_test:multipart/slab/iron/bottom" }
 	}
 }

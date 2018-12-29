@@ -1,7 +1,7 @@
 {
 	"variants": {
-		"half=upper": { "model": "multipart_test:multipart/slab/gold/upper" },
-		"half=lower": { "model": "multipart_test:multipart/slab/gold/lower" },
-		"inventory": { "model": "multipart_test:multipart/slab/gold/lower" }
+		"half=top": { "model": "multipart_test:multipart/slab/gold/top" },
+		"half=bottom": { "model": "multipart_test:multipart/slab/gold/bottom" },
+		"inventory": { "model": "multipart_test:multipart/slab/gold/bottom" }
 	}
 }
