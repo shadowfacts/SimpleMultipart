@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.AbstractPropertyContainer;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.loot.context.LootContext;
 
@@ -49,11 +50,11 @@ public class MultipartState extends AbstractPropertyContainer<Multipart, Multipa
 	}
 
 	/**
-	 * @see Multipart#activate(MultipartView, PlayerEntity, Hand)
+	 * @see Multipart#activate(MultipartView, Direction, PlayerEntity, Hand)
 	 */
-	public boolean activate(MultipartView view, PlayerEntity player, Hand hand) {
+	public boolean activate(MultipartView view, Direction side, PlayerEntity player, Hand hand) {
 		//noinspection deprecated
-		return owner.activate(view, player, hand);
+		return owner.activate(view, side, player, hand);
 	}
 
 }

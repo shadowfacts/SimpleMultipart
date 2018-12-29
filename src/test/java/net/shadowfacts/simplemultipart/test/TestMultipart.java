@@ -56,7 +56,7 @@ public class TestMultipart extends Multipart {
 
 	@Override
 	@Deprecated
-	public boolean activate(MultipartView view, PlayerEntity player, Hand hand) {
+	public boolean activate(MultipartView view, Direction side, PlayerEntity player, Hand hand) {
 		System.out.println(view.getContainer().getPart(Direction.UP));
 		return true;
 	}

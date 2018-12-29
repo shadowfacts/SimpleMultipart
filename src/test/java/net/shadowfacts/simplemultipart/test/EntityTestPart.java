@@ -4,6 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.StringTextComponent;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.shadowfacts.simplemultipart.container.MultipartContainer;
@@ -27,7 +28,7 @@ public class EntityTestPart extends Multipart implements MultipartEntityProvider
 
 	@Override
 	@Deprecated
-	public boolean activate(MultipartView view, PlayerEntity player, Hand hand) {
+	public boolean activate(MultipartView view, Direction side, PlayerEntity player, Hand hand) {
 		BlockPos pos = ((Entity)view.getEntity()).getPos();
 		player.addChatMessage(new StringTextComponent("Clicked: " + pos), false);
 		return true;

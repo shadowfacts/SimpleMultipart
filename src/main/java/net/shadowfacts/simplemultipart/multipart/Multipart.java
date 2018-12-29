@@ -16,7 +16,6 @@ import net.shadowfacts.simplemultipart.SimpleMultipart;
 import net.shadowfacts.simplemultipart.util.MultipartPlacementContext;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * The base class for a multipart object.
@@ -134,12 +133,13 @@ public abstract class Multipart {
 	 * Can be overridden, should only be called via {@link MultipartState#activate}
 	 *
 	 * @param view The view of this part.
+	 * @param side The side of the part that was hit.
 	 * @param player The player that activated this part.
 	 * @param hand The hand with which they performed the action.
 	 * @return If the activation was successful. {@code true} will trigger the hand-swinging animation.
 	 */
 	@Deprecated
-	public boolean activate(MultipartView view, PlayerEntity player, Hand hand) {
+	public boolean activate(MultipartView view, Direction side, PlayerEntity player, Hand hand) {
 		return false;
 	}
 

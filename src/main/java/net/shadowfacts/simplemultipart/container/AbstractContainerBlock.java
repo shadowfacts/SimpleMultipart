@@ -39,7 +39,7 @@ public abstract class AbstractContainerBlock extends Block implements BlockEntit
 			return false;
 		}
 
-		return hit.view.getState().activate(hit.view, player, hand);
+		return hit.view.getState().activate(hit.view, hit.side, player, hand);
 	}
 
 	@Override

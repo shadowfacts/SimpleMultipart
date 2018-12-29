@@ -4,6 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.StringTextComponent;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Tickable;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.shadowfacts.simplemultipart.container.MultipartContainer;
@@ -26,9 +27,10 @@ public class TickableEntityTestPart extends Multipart implements MultipartEntity
 
 	@Override
 	@Deprecated
-	public boolean activate(MultipartView view, PlayerEntity player, Hand hand) {
+	public boolean activate(MultipartView view, Direction side, PlayerEntity player, Hand hand) {
 		int timer = ((Entity)view.getEntity()).timer;
 		player.addChatMessage(new StringTextComponent("Timer: " + timer), false);
+		System.out.println("hit side: " + side);
 		return true;
 	}
 
