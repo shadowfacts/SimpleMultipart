@@ -6,8 +6,7 @@
   "side": "universal",
   "initializers": [
     "net.shadowfacts.simplemultipart.SimpleMultipart",
-    "net.shadowfacts.simplemultipart.client.SimpleMultipartClient",
-    "net.shadowfacts.simplemultipart.test.MultipartTestMod"
+    "net.shadowfacts.simplemultipart.client.SimpleMultipartClient"
   ],
   "requires": {
     "fabric": "*"
