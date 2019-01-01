@@ -1,5 +1,7 @@
 package net.shadowfacts.simplemultipart.multipart;
 
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.shadowfacts.simplemultipart.container.MultipartContainer;
 import net.shadowfacts.simplemultipart.multipart.Multipart;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
@@ -57,6 +59,20 @@ public interface MultipartView {
 	 */
 	default Multipart getMultipart() {
 		return getState().getMultipart();
+	}
+
+	/**
+	 * @return The world that this part's container is in.
+	 */
+	default World getWorld() {
+		return getContainer().getContainerWorld();
+	}
+
+	/**
+	 * @return The position of this part's container.
+	 */
+	default BlockPos getPos() {
+		return getContainer().getContainerPos();
 	}
 
 }

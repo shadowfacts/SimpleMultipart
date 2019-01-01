@@ -1,6 +1,8 @@
 package net.shadowfacts.simplemultipart.container;
 
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 import net.shadowfacts.simplemultipart.multipart.MultipartView;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 
@@ -14,6 +16,16 @@ import java.util.Set;
  * @since 0.1.0
  */
 public interface MultipartContainer {
+
+	/**
+	 * @return The world that this container is in.
+	 */
+	World getContainerWorld();
+
+	/**
+	 * @return The position of this container in the world.
+	 */
+	BlockPos getContainerPos();
 
 	/**
 	 * Retrieves all the multiparts held by this container.

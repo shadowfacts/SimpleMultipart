@@ -17,6 +17,7 @@ import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.World;
 import net.minecraft.world.loot.context.LootContext;
 import net.minecraft.world.loot.context.Parameters;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
@@ -40,6 +41,16 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 
 	public AbstractContainerBlockEntity(BlockEntityType<?> type) {
 		super(type);
+	}
+
+	@Override
+	public World getContainerWorld() {
+		return world;
+	}
+
+	@Override
+	public BlockPos getContainerPos() {
+		return pos;
 	}
 
 	@Override
