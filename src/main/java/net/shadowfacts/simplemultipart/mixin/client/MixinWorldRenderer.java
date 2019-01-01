@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(WorldRenderer.class)
 public class MixinWorldRenderer {
 
-	@Redirect(method = "drawHighlightedBlockOutline", at = @At(value = "INVOKE", target = "getBoundingShape"))
+	@Redirect(method = "drawHighlightedBlockOutline", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;getBoundingShape(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/util/shape/VoxelShape;"))
 	public VoxelShape getHighlightShape(BlockState state, BlockView world, BlockPos pos) {
 		if (state.getBlock() == SimpleMultipart.containerBlock || state.getBlock() == SimpleMultipart.tickableContainerBlock) {
 			MultipartContainer container = (MultipartContainer)world.getBlockEntity(pos);
