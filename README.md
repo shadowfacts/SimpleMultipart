@@ -17,7 +17,7 @@ Add SimpleMultipart to your dependencies:
 
 ```groovy
 dependencies {
-	modCompile "net.shadowfacts.simplemultipart:SimpleMultipart:0.1.0"
+	modCompile "net.shadowfacts.simplemultipart:SimpleMultipart:0.1.1"
 }
 ```
 
