@@ -3,6 +3,7 @@ package net.shadowfacts.simplemultipart.container;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.shadowfacts.simplemultipart.multipart.Multipart;
 import net.shadowfacts.simplemultipart.multipart.MultipartView;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 
@@ -39,6 +40,14 @@ public interface MultipartContainer {
 	 * @return If this container has any parts in it.
 	 */
 	boolean hasParts();
+
+	/**
+	 * Gets all the multiparts in this container of the given type.
+	 *
+	 * @param type The multipart instance representing the multipart type.
+	 * @return The set of all the multiparts in this container that are of that type.
+	 */
+	Set<MultipartView> getParts(Multipart type);
 
 	/**
 	 * Gets the part on the given side.

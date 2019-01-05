@@ -21,6 +21,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.loot.context.LootContext;
 import net.minecraft.world.loot.context.Parameters;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
+import net.shadowfacts.simplemultipart.multipart.Multipart;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 import net.shadowfacts.simplemultipart.multipart.entity.MultipartEntity;
 import net.shadowfacts.simplemultipart.multipart.entity.MultipartEntityProvider;
@@ -61,6 +62,13 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 	@Override
 	public boolean hasParts() {
 		return !parts.isEmpty();
+	}
+
+	@Override
+	public Set<MultipartView> getParts(Multipart type) {
+		return parts.stream()
+				.filter(e -> e.getState().getMultipart() == type)
+				.collect(Collectors.toSet());
 	}
 
 	@Override
