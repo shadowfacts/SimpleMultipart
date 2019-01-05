@@ -96,6 +96,20 @@ public abstract class Multipart {
 	public abstract VoxelShape getBoundingShape(MultipartState state, /*@Nullable*/ MultipartView view);
 
 	/**
+	 * Determines if this multipart can be placed in the same block as another part, even if their bounding boxes intersect.
+	 *
+	 * Can be overriden, should only be called via {@link MultipartState#canIntersectWith(MultipartState)}
+	 *
+	 * @param self The state for this part.
+	 * @param other The other part that already exists.
+	 * @return If the multiparts can coexist.
+	 */
+	@Deprecated
+	public boolean canIntersectWith(MultipartState self, MultipartState other) {
+		return false;
+	}
+
+	/**
 	 * @return The loot table ID used for to determine the drops by the default {@link Multipart#getDroppedStacks(MultipartView, LootContext.Builder)} implementation.
 	 */
 	public Identifier getDropTableId() {
@@ -146,6 +160,9 @@ public abstract class Multipart {
 
 	/**
 	 * Called after this multipart (and it's entity, if there is one) has been added to the container.
+	 *
+	 * Can be overriden, should only be called via {@link MultipartState#onPartAdded(MultipartView)}
+	 *
 	 * @param view The view of this part.
 	 */
 	@Deprecated
@@ -154,6 +171,9 @@ public abstract class Multipart {
 
 	/**
 	 * Called <b>after</b> this part has been removed from its container.
+	 *
+	 * Can be overriden, should only be called via {@link MultipartState#onPartRemoved(MultipartView)}
+	 *
 	 * @param view The view of this part.
 	 *             The multipart entity and container in this view are still present, but the part is no longer in the container.
 	 */

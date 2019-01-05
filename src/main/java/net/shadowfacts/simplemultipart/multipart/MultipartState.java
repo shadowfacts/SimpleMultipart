@@ -42,6 +42,14 @@ public class MultipartState extends AbstractPropertyContainer<Multipart, Multipa
 	}
 
 	/**
+	 * @see Multipart#canIntersectWith(MultipartState, MultipartState)
+	 */
+	public boolean canIntersectWith(MultipartState other) {
+		//noinspection deprecation
+		return owner.canIntersectWith(this, other);
+	}
+
+	/**
 	 * @see Multipart#getDroppedStacks(MultipartView, LootContext.Builder)
 	 */
 	public List<ItemStack> getDroppedStacks(MultipartView view, LootContext.Builder builder) {
