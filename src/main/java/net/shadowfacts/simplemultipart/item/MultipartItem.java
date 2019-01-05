@@ -25,8 +25,11 @@ public class MultipartItem extends Item {
 	protected Multipart part;
 
 	public MultipartItem(Multipart part) {
-		// TODO: expose settings object?
-		super(new Settings());
+		this(part, new Settings());
+	}
+
+	public MultipartItem(Multipart part, Settings settings) {
+		super(settings);
 		this.part = part;
 	}
 
