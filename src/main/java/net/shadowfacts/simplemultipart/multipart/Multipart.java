@@ -103,6 +103,7 @@ public abstract class Multipart {
 	 * @param self The state for this part.
 	 * @param other The other part that already exists.
 	 * @return If the multiparts can coexist.
+	 * @since 0.1.2
 	 */
 	@Deprecated
 	public boolean canIntersectWith(MultipartState self, MultipartState other) {
@@ -164,6 +165,7 @@ public abstract class Multipart {
 	 * Can be overriden, should only be called via {@link MultipartState#onPartAdded(MultipartView)}
 	 *
 	 * @param view The view of this part.
+	 * @since 0.1.1
 	 */
 	@Deprecated
 	public void onPartAdded(MultipartView view) {
@@ -176,6 +178,7 @@ public abstract class Multipart {
 	 *
 	 * @param view The view of this part.
 	 *             The multipart entity and container in this view are still present, but the part is no longer in the container.
+	 * @since 0.1.1
 	 */
 	@Deprecated
 	public void onPartRemoved(MultipartView view) {
