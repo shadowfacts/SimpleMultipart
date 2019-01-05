@@ -20,11 +20,11 @@ import net.shadowfacts.simplemultipart.util.MultipartPlacementContext;
  * @author shadowfacts
  * @since 0.1.0
  */
-public class ItemMultipart extends Item {
+public class MultipartItem extends Item {
 
 	protected Multipart part;
 
-	public ItemMultipart(Multipart part) {
+	public MultipartItem(Multipart part) {
 		// TODO: expose settings object?
 		super(new Settings());
 		this.part = part;
