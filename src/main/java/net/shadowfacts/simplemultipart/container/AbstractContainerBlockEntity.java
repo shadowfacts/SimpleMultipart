@@ -120,7 +120,6 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 			return;
 		}
 
-
 		Entry e = new Entry(this, partState, null);
 		if (partState.getMultipart() instanceof MultipartEntityProvider) {
 			e.entity = ((MultipartEntityProvider)partState.getMultipart()).createMultipartEntity(partState, this);
@@ -128,17 +127,20 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 		}
 		parts.add(e);
 
+		partState.onPartAdded(e);
+
 		invalidateSidePartCache();
 		updateWorld();
 	}
 
 	@Override
 	public void remove(MultipartView view) {
-		if (view.getContainer() != this) {
+		if (view.getContainer() != this || !(view instanceof Entry)) {
 			return;
 		}
 
-		parts.removeIf(e -> e.state == view.getState() && e.entity == view.getEntity());
+		parts.remove(view);
+		view.getState().onPartRemoved(view);
 
 		if (parts.isEmpty()) {
 			world.setBlockState(pos, Blocks.AIR.getDefaultState());
@@ -150,18 +152,19 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 
 	@Override
 	public boolean breakPart(MultipartView view) {
-		Optional<Entry> entry = parts.stream().filter(e -> e.state == view.getState() && e.entity == view.getEntity()).findFirst();
-		if (!entry.isPresent()) {
+		if (view.getContainer() != this || !(view instanceof Entry)) {
 			return false;
 		}
 
+		Entry e = (Entry)view;
+
 		if (world instanceof ServerWorld) {
-			List<ItemStack> drops = getDroppedStacks(entry.get(), (ServerWorld)world, pos);
+			List<ItemStack> drops = getDroppedStacks(e, (ServerWorld)world, pos);
 			drops.forEach(stack -> Block.dropStack(world, pos, stack));
 			// TODO: don't drop if player is creative
 		}
 
-		remove(view);
+		remove(e);
 
 		updateWorld();
 

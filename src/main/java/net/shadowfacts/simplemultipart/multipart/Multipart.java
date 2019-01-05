@@ -13,6 +13,7 @@ import net.minecraft.world.loot.LootSupplier;
 import net.minecraft.world.loot.LootTables;
 import net.minecraft.world.loot.context.LootContext;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
+import net.shadowfacts.simplemultipart.container.MultipartContainer;
 import net.shadowfacts.simplemultipart.util.MultipartPlacementContext;
 
 import java.util.List;
@@ -141,6 +142,23 @@ public abstract class Multipart {
 	@Deprecated
 	public boolean activate(MultipartView view, Direction side, PlayerEntity player, Hand hand) {
 		return false;
+	}
+
+	/**
+	 * Called after this multipart (and it's entity, if there is one) has been added to the container.
+	 * @param view The view of this part.
+	 */
+	@Deprecated
+	public void onPartAdded(MultipartView view) {
+	}
+
+	/**
+	 * Called <b>after</b> this part has been removed from its container.
+	 * @param view The view of this part.
+	 *             The multipart entity and container in this view are still present, but the part is no longer in the container.
+	 */
+	@Deprecated
+	public void onPartRemoved(MultipartView view) {
 	}
 
 }

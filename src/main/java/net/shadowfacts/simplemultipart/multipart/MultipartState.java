@@ -57,4 +57,20 @@ public class MultipartState extends AbstractPropertyContainer<Multipart, Multipa
 		return owner.activate(view, side, player, hand);
 	}
 
+	/**
+	 * @see Multipart#onPartAdded(MultipartView)
+	 */
+	public void onPartAdded(MultipartView view) {
+		//noinspection deprecated
+		owner.onPartAdded(view);
+	}
+
+	/**
+	 * @see Multipart#onPartRemoved(MultipartView)
+	 */
+	public void onPartRemoved(MultipartView view) {
+		//noinspection deprecated
+		owner.onPartRemoved(view);
+	}
+
 }
