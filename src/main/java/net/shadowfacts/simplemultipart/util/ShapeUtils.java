@@ -20,8 +20,7 @@ public class ShapeUtils {
 	}
 
 	public static boolean hasSolidSide(VoxelShape shape, Direction side) {
-		BiFunction<VoxelShape, Direction.Axis, Double> getter = side.getDirection() == Direction.AxisDirection.NEGATIVE ? VoxelShape::getMinimum : VoxelShape::getMaximum;
-		if (getter.apply(shape, side.getAxis()) < 1) {
+		if ((side.getDirection() == Direction.AxisDirection.POSITIVE && shape.getMaximum(side.getAxis()) < 1) || (side.getDirection() == Direction.AxisDirection.NEGATIVE && shape.getMinimum(side.getAxis()) > 0)) {
 			return false;
 		}
 		for (Direction.Axis axis : Direction.Axis.values()) {
