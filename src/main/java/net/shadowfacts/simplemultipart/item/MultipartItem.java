@@ -116,7 +116,7 @@ public class MultipartItem extends Item {
 
 		if (context.getContainer().canInsert(placementState)) {
 			context.getContainer().insert(placementState);
-			context.getItemStack().addAmount(-1);
+			context.getItemStack().subtractAmount(1);
 			return true;
 		}
 		return false;

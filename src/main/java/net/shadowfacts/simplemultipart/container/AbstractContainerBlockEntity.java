@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -151,17 +152,16 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 	}
 
 	@Override
-	public boolean breakPart(MultipartView view) {
+	public boolean breakPart(MultipartView view, PlayerEntity player) {
 		if (view.getContainer() != this || !(view instanceof Entry)) {
 			return false;
 		}
 
 		Entry e = (Entry)view;
 
-		if (world instanceof ServerWorld) {
+		if (world instanceof ServerWorld && !player.isCreative()) {
 			List<ItemStack> drops = getDroppedStacks(e, (ServerWorld)world, pos);
 			drops.forEach(stack -> Block.dropStack(world, pos, stack));
-			// TODO: don't drop if player is creative
 		}
 
 		remove(e);

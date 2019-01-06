@@ -41,7 +41,7 @@ public class ContainerEventHandler {
 			return ActionResult.FAILURE;
 		}
 
-		boolean success = container.breakPart(hit.view);
+		boolean success = container.breakPart(hit.view, player);
 		return success ? ActionResult.SUCCESS : ActionResult.FAILURE;
 	}
 
