@@ -15,6 +15,7 @@ import net.shadowfacts.simplemultipart.client.util.RenderStateProvider;
 import net.shadowfacts.simplemultipart.util.MultipartHelper;
 import net.shadowfacts.simplemultipart.util.MultipartHitResult;
 import net.shadowfacts.simplemultipart.multipart.MultipartView;
+import net.shadowfacts.simplemultipart.util.ShapeUtils;
 
 import java.util.Set;
 
@@ -67,6 +68,21 @@ public abstract class AbstractContainerBlock extends Block implements BlockEntit
 			shape = shape == null ? partShape : VoxelShapes.union(shape, partShape);
 		}
 		return shape == null ? VoxelShapes.empty() : shape;
+	}
+
+	@Override
+	@Deprecated
+	public boolean hasSolidTopSurface(BlockState state, BlockView world, BlockPos pos) {
+		MultipartContainer container = (MultipartContainer)world.getBlockEntity(pos);
+		if (container == null) {
+			return false;
+		}
+
+		return container.getParts().stream()
+				.anyMatch(view -> {
+					VoxelShape shape = view.getState().getBoundingShape(view);
+					return ShapeUtils.hasSolidSide(shape, Direction.UP);
+				});
 	}
 
 	@Override

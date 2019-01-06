@@ -106,7 +106,7 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 		VoxelShape newShape = partState.getBoundingShape(null);
 		for (Entry e : parts) {
 			VoxelShape existingShape = e.state.getBoundingShape(e);
-			if (ShapeUtils.intersect(newShape, existingShape)) {
+			if (ShapeUtils.intersect(newShape, existingShape) && !(partState.canIntersectWith(e.state) && e.state.canIntersectWith(partState))) {
 				return false;
 			}
 		}

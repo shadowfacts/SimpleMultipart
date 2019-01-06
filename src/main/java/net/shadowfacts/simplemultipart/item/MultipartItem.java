@@ -18,16 +18,28 @@ import net.shadowfacts.simplemultipart.util.MultipartPlacementContext;
  * Analogous to {@link net.minecraft.item.block.BlockItem}.
  *
  * @author shadowfacts
- * @since 0.1.0
+ * @since 0.1.1
  */
 public class MultipartItem extends Item {
 
 	protected Multipart part;
 
+	/**
+	 * Creates a Multipart Item for the given part with.
+	 *
+	 * @param part The multipart.
+	 */
 	public MultipartItem(Multipart part) {
 		this(part, new Settings());
 	}
 
+	/**
+	 * Creates a Multipart Item for the given part with the given item settings.
+	 *
+	 * @param part The multipart.
+	 * @param settings The settings for this item.
+	 * @since 0.1.2
+	 */
 	public MultipartItem(Multipart part, Settings settings) {
 		super(settings);
 		this.part = part;
