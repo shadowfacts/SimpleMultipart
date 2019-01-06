@@ -18,14 +18,16 @@ import net.shadowfacts.simplemultipart.container.MultipartContainer;
 public class MultipartPlacementContext extends ItemUsageContext {
 
 	private final MultipartContainer container;
+	private final boolean isOffset;
 
-	public MultipartPlacementContext(MultipartContainer container, PlayerEntity player, ItemStack stack, BlockPos pos, Direction side, float hitX, float hitY, float hitZ) {
+	public MultipartPlacementContext(MultipartContainer container, boolean isOffset, PlayerEntity player, ItemStack stack, BlockPos pos, Direction side, float hitX, float hitY, float hitZ) {
 		super(player, stack, pos, side, hitX, hitY, hitZ);
 		this.container = container;
+		this.isOffset = isOffset;
 	}
 
-	public MultipartPlacementContext(MultipartContainer container, ItemUsageContext context) {
-		this(container, context.getPlayer(), context.getItemStack(), context.getPos(), context.getFacing(), context.getHitX(), context.getHitY(), context.getHitZ());
+	public MultipartPlacementContext(MultipartContainer container, boolean isOffset, ItemUsageContext context) {
+		this(container, isOffset, context.getPlayer(), context.getItemStack(), context.getPos(), context.getFacing(), context.getHitX(), context.getHitY(), context.getHitZ());
 	}
 
 	/**
@@ -35,4 +37,11 @@ public class MultipartPlacementContext extends ItemUsageContext {
 		return container;
 	}
 
+	/**
+	 * @return {@code false} if this container is the one clicked, {@code true} if this container is a newly created one offset from the block clicked.
+	 * @since 0.1.2
+	 */
+	public boolean isOffset() {
+		return isOffset;
+	}
 }
