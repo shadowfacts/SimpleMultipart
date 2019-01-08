@@ -34,7 +34,7 @@ public abstract class MixinDebugHud {
 	@Shadow
 	public abstract String method_1845(Map.Entry<Property<?>, Comparable<?>> map$Entry_1);
 
-	@Inject(method = "method_1839", at = @At("RETURN"))
+	@Inject(method = "getRightText", at = @At("RETURN"))
 	public void method_1839(CallbackInfoReturnable<List<String>> info) {
 		if (!client.hasReducedDebugInfo() && blockHit != null && blockHit.type == HitResult.Type.BLOCK) {
 			BlockEntity entity = client.world.getBlockEntity(blockHit.getBlockPos());
