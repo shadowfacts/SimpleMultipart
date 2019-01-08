@@ -193,7 +193,7 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 		world.scheduleBlockRender(pos);
 		BlockState blockState = world.getBlockState(pos);
 		world.updateListeners(pos, blockState, blockState, 3);
-		blockState.updateNeighborStates(world, pos, 3);
+		world.updateNeighbors(pos, blockState.getBlock());
 	}
 
 	private List<ItemStack> getDroppedStacks(Entry e, ServerWorld world, BlockPos pos) {
