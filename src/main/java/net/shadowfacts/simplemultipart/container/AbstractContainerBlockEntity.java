@@ -193,7 +193,11 @@ public abstract class AbstractContainerBlockEntity extends BlockEntity implement
 		world.scheduleBlockRender(pos);
 		BlockState blockState = world.getBlockState(pos);
 		world.updateListeners(pos, blockState, blockState, 3);
-		world.updateNeighbors(pos, blockState.getBlock());
+
+		// both of these are required, some blocks (e.g. torch) use getStateForNeighborUpdate (used by updateNeighborStates)
+		// to update themselves, and some (e.g. redstone dust) use neighborUpdate to do so
+		blockState.updateNeighborStates(world, pos, 3); // updates the blockstates of the neighbors in the world
+		world.updateNeighbors(pos, blockState.getBlock()); // calls neighborUpdate on the neighbor blocks
 	}
 
 	private List<ItemStack> getDroppedStacks(Entry e, ServerWorld world, BlockPos pos) {
