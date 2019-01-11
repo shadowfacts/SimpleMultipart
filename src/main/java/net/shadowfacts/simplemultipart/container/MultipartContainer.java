@@ -1,5 +1,6 @@
 package net.shadowfacts.simplemultipart.container;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -99,7 +100,7 @@ public interface MultipartContainer {
 	 * @param view The part to break.
 	 * @return If the part has been successfully broken.
 	 */
-	boolean breakPart(MultipartView view);
+	boolean breakPart(MultipartView view, PlayerEntity player);
 
 	/**
 	 * Indicates that something about a multipart in this container has changed and it should be saved to disk.

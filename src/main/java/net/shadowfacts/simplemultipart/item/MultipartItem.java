@@ -55,6 +55,7 @@ public class MultipartItem extends Item {
 	 *
 	 * If the player clicked an existing multipart container, it will attempt to insert into that one, falling back on
 	 * creating a new container.
+	 * Which container the placement is being attempted in can be determined from {@link MultipartPlacementContext#isOffset()}.
 	 *
 	 * @param context The item usage context.
 	 * @return The result of the placement.
@@ -62,7 +63,7 @@ public class MultipartItem extends Item {
 	protected ActionResult tryPlace(ItemUsageContext context) {
 		// If a multipart inside an existing container was clicked, try inserting into that
 		MultipartContainer hitContainer = getContainer(context);
-		if (hitContainer != null && tryPlace(new MultipartPlacementContext(hitContainer, context))) {
+		if (hitContainer != null && tryPlace(new MultipartPlacementContext(hitContainer, false, context))) {
 			return ActionResult.SUCCESS;
 		}
 
@@ -70,7 +71,7 @@ public class MultipartItem extends Item {
 		ItemUsageContext offsetContext = new ItemUsageContext(context.getPlayer(), context.getItemStack(), context.getPos().offset(context.getFacing()), context.getFacing(), context.getHitX(), context.getHitY(), context.getHitZ());
 		MultipartContainer offsetContainer = getOrCreateContainer(offsetContext);
 		if (offsetContainer != null) {
-			if (tryPlace(new MultipartPlacementContext(offsetContainer, offsetContext))) {
+			if (tryPlace(new MultipartPlacementContext(offsetContainer, true, offsetContext))) {
 				return ActionResult.SUCCESS;
 			} else {
 				// if the a new container was created, and no part was inserted, remove the empty container
@@ -115,7 +116,7 @@ public class MultipartItem extends Item {
 
 		if (context.getContainer().canInsert(placementState)) {
 			context.getContainer().insert(placementState);
-			context.getItemStack().addAmount(-1);
+			context.getItemStack().subtractAmount(1);
 			return true;
 		}
 		return false;
