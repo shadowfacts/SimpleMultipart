@@ -14,7 +14,7 @@ import net.shadowfacts.simplemultipart.container.*;
 import net.shadowfacts.simplemultipart.multipart.Multipart;
 import net.shadowfacts.simplemultipart.multipart.MultipartState;
 
-import java.lang.reflect.Method;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -35,6 +35,8 @@ public class SimpleMultipart implements ModInitializer {
 	public static final BlockEntityType<ContainerBlockEntity> containerBlockEntity = createBlockEntityType("container", ContainerBlockEntity::new);
 	public static final BlockEntityType<TickableContainerBlockEntity> tickableContainerBlockEntity = createBlockEntityType("tickable_container", TickableContainerBlockEntity::new);
 
+	private static BiFunction<String, Consumer<LootContextType.Builder>, LootContextType> lootContextRegisterFunction;
+
 	@Override
 	public void onInitialize() {
 		Registry.register(Registry.BLOCK, new Identifier(MODID, "container"), containerBlock);
@@ -54,17 +56,20 @@ public class SimpleMultipart implements ModInitializer {
 		return Registry.register(Registry.BLOCK_ENTITY, new Identifier(MODID, name), builder.method_11034(null));
 	}
 
+	@Deprecated
+	public static void setLootContextRegisterFunction(BiFunction<String, Consumer<LootContextType.Builder>, LootContextType> function) {
+		lootContextRegisterFunction = function;
+	}
+
 	private static LootContextType createMultipartLootContextType() {
 		try {
-			Method register = LootContextTypes.class.getDeclaredMethod("register", String.class, Consumer.class);
-			register.setAccessible(true);
-			Consumer<LootContextType.Builder> initializer = builder -> {
-				builder.require(MULTIPART_STATE_PARAMETER).require(Parameters.POSITION);
-			};
-			return (LootContextType)register.invoke(null, MODID + ":multipart", initializer);
-		} catch (ReflectiveOperationException e) {
-			throw new RuntimeException(e);
-		}
+			// Load the function
+			Class.forName(LootContextTypes.class.getCanonicalName());
+		} catch (ClassNotFoundException e) {}
+		return lootContextRegisterFunction.apply(
+				MODID + ":multipart",
+				builder -> builder.require(MULTIPART_STATE_PARAMETER).require(Parameters.POSITION)
+		);
 	}
 
 }
