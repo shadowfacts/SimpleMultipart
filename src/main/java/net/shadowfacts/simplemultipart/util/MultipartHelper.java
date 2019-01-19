@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.state.PropertyContainer;
 import net.minecraft.state.StateFactory;
 import net.minecraft.state.property.Property;
+import net.minecraft.util.BlockHitResult;
 import net.minecraft.util.HitResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -72,11 +73,11 @@ public class MultipartHelper {
 		return container.getParts().stream()
 				.map(view -> {
 					VoxelShape shape = view.getState().getBoundingShape(view);
-					HitResult result = shape.rayTrace(start, end, pos);
+					BlockHitResult result = shape.rayTrace(start, end, pos);
 					return result == null ? null : new MultipartHitResult(result, view);
 				})
 				.filter(Objects::nonNull)
-				.min(Comparator.comparingDouble(hit -> hit.pos.subtract(start).lengthSquared()))
+				.min(Comparator.comparingDouble(hit -> hit.getPos().subtract(start).lengthSquared()))
 				.orElse(null);
 	}
 

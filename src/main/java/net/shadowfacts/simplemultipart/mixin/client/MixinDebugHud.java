@@ -4,6 +4,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.DebugHud;
 import net.minecraft.state.property.Property;
+import net.minecraft.util.BlockHitResult;
 import net.minecraft.util.HitResult;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
 import net.shadowfacts.simplemultipart.container.MultipartContainer;
@@ -35,12 +36,13 @@ public abstract class MixinDebugHud {
 	public abstract String method_1845(Map.Entry<Property<?>, Comparable<?>> map$Entry_1);
 
 	@Inject(method = "getRightText", at = @At("RETURN"))
-	public void method_1839(CallbackInfoReturnable<List<String>> info) {
-		if (!client.hasReducedDebugInfo() && blockHit != null && blockHit.type == HitResult.Type.BLOCK) {
-			BlockEntity entity = client.world.getBlockEntity(blockHit.getBlockPos());
+	public void getRightText(CallbackInfoReturnable<List<String>> info) {
+		if (!client.hasReducedDebugInfo() && blockHit != null && blockHit.getType() == HitResult.Type.BLOCK) {
+			BlockHitResult hitResult = (BlockHitResult)blockHit;
+			BlockEntity entity = client.world.getBlockEntity(hitResult.getBlockPos());
 			if (entity instanceof MultipartContainer) {
 				MultipartContainer container = (MultipartContainer)entity;
-				MultipartHitResult result = MultipartHelper.rayTrace(container, client.world, blockHit.getBlockPos(), client.player);
+				MultipartHitResult result = MultipartHelper.rayTrace(container, client.world, hitResult.getBlockPos(), client.player);
 				if (result != null && result.view != null) {
 					info.getReturnValue().add("");
 					info.getReturnValue().add("Targeted Multipart");

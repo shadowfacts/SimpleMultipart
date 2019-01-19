@@ -5,6 +5,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockHitResult;
 import net.shadowfacts.simplemultipart.SimpleMultipart;
 import net.shadowfacts.simplemultipart.container.AbstractContainerBlockEntity;
 import net.shadowfacts.simplemultipart.container.MultipartContainer;
@@ -68,7 +69,8 @@ public class MultipartItem extends Item {
 		}
 
 		// Otherwise, get or create a new container and try inserting into that
-		ItemUsageContext offsetContext = new ItemUsageContext(context.getPlayer(), context.getItemStack(), context.getPos().offset(context.getFacing()), context.getFacing(), context.getHitX(), context.getHitY(), context.getHitZ());
+		BlockHitResult offsetHitResult = new BlockHitResult(context.method_17698(), context.getFacing(), context.getPos().offset(context.getFacing()), context.method_17699());
+		ItemUsageContext offsetContext = new ItemUsageContext(context.getPlayer(), context.getItemStack(), offsetHitResult);
 		MultipartContainer offsetContainer = getOrCreateContainer(offsetContext);
 		if (offsetContainer != null) {
 			if (tryPlace(new MultipartPlacementContext(offsetContainer, true, offsetContext))) {

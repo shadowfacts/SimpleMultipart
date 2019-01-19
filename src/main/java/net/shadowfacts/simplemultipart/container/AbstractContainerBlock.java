@@ -2,7 +2,9 @@ package net.shadowfacts.simplemultipart.container;
 
 import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.*;
+import net.minecraft.entity.VerticalEntityPosition;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.BlockHitResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -29,7 +31,7 @@ public abstract class AbstractContainerBlock extends Block implements BlockEntit
 	}
 
 	@Override
-	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
+	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hitResult) {
 		MultipartContainer container = (MultipartContainer)world.getBlockEntity(pos);
 		if (container == null) {
 			return false;
@@ -40,7 +42,7 @@ public abstract class AbstractContainerBlock extends Block implements BlockEntit
 			return false;
 		}
 
-		return hit.view.getState().activate(hit.view, hit.side, player, hand);
+		return hit.view.getState().activate(hit.view, hit.getSide(), player, hand);
 	}
 
 	@Override
@@ -54,9 +56,7 @@ public abstract class AbstractContainerBlock extends Block implements BlockEntit
 		return new ContainerBlockState(state, parts);
 	}
 
-	@Override
-	@Deprecated
-	public VoxelShape getBoundingShape(BlockState state, BlockView world, BlockPos pos) {
+	private VoxelShape getCombinedShape(BlockView world, BlockPos pos) {
 		MultipartContainer container = (MultipartContainer)world.getBlockEntity(pos);
 		if (container == null) {
 			return VoxelShapes.empty();
@@ -68,6 +68,22 @@ public abstract class AbstractContainerBlock extends Block implements BlockEntit
 			shape = shape == null ? partShape : VoxelShapes.union(shape, partShape);
 		}
 		return shape == null ? VoxelShapes.empty() : shape;
+	}
+
+	@Override
+	@Deprecated
+	public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, VerticalEntityPosition verticalEntityPosition) {
+		return getCombinedShape(world, pos);
+	}
+
+	@Override
+	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, VerticalEntityPosition verticalEntityPosition) {
+		return getCombinedShape(world, pos);
+	}
+
+	@Override
+	public VoxelShape getRayTraceShape(BlockState state, BlockView world, BlockPos pos) {
+		return getCombinedShape(world, pos);
 	}
 
 	@Override

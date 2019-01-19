@@ -36,12 +36,14 @@ public class SlabMultipart extends Multipart {
 		Direction hitSide = context.getFacing();
 		BlockHalf half;
 
+		double absoluteHitY = context.method_17698().y; // method_17698 returns an absolutely position vector (i.e. in the world's coordinate space)
+		double relativeHitY = absoluteHitY - Math.floor(absoluteHitY); // this converts it to the block's coordinate space (e.g. 4.5 - Math.floor(4.5) = 0.5)
 		if (hitSide == Direction.DOWN) {
-			half = context.getHitY() >= 0.5f ? BlockHalf.BOTTOM : BlockHalf.TOP;
+			half = relativeHitY >= 0.5f ? BlockHalf.BOTTOM : BlockHalf.TOP;
 		} else if (hitSide == Direction.UP) {
-			half = 0.5f <= context.getHitY() && context.getHitY() < 1 ? BlockHalf.TOP : BlockHalf.BOTTOM;
+			half = 0.5f <= relativeHitY && relativeHitY < 1 ? BlockHalf.TOP : BlockHalf.BOTTOM;
 		} else {
-			half = context.getHitY() >= 0.5f ? BlockHalf.TOP : BlockHalf.BOTTOM;
+			half = relativeHitY >= 0.5f ? BlockHalf.TOP : BlockHalf.BOTTOM;
 		}
 
 		return getDefaultState().with(HALF, half);

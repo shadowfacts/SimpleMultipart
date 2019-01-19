@@ -53,7 +53,7 @@ public class SimpleMultipart implements ModInitializer {
 
 	private static <T extends BlockEntity> BlockEntityType<T> createBlockEntityType(String name, Supplier<T> supplier) {
 		BlockEntityType.Builder<T> builder = BlockEntityType.Builder.create(supplier);
-		return Registry.register(Registry.BLOCK_ENTITY, new Identifier(MODID, name), builder.method_11034(null));
+		return Registry.register(Registry.BLOCK_ENTITY, new Identifier(MODID, name), builder.build(null));
 	}
 
 	@Deprecated
